@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/public/styles.css" />
+  </head>
+  <body class="admin-body">
+    <aside class="admin-sidebar">
+      <h2>Mashtal Admin</h2>
+      <nav>
+        <a href="/admin">Dashboard</a>
+        <a href="/admin/products/new">Add Product</a>
+        <a href="/admin/logout">Logout</a>
+      </nav>
+    </aside>
+
+    <main class="admin-main">
+      <div class="admin-topbar">
+        <h1>Dashboard</h1>
+      </div>
+
+      <section class="stats-grid">
+        <div class="stat-card">
+          <span>Total Products</span>
+          <strong><%= products.length %></strong>
+        </div>
+        <div class="stat-card">
+          <span>Orders</span>
+          <strong><%= orders.length %></strong>
+        </div>
+        <div class="stat-card">
+          <span>Messages</span>
+          <strong><%= contacts.length %></strong>
+        </div>
+      </section>
+
+      <section class="admin-panel">
+        <h2>Inventory</h2>
+        <a class="btn primary" href="/admin/products/new">+ Add Product</a>
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Title</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Stock</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% products.forEach(product => { %>
+              <tr>
+                <td><img src="<%= product.image %>" alt="<%= product.title %>" class="admin-thumb" /></td>
+                <td><%= product.title %></td>
+                <td><%= product.category %></td>
+                <td>$<%= product.price %></td>
+                <td><%= product.stock %></td>
+                <td>
+                  <a class="btn small secondary" href="/admin/products/edit/<%= product.id %>">Edit</a>
+                  <form method="POST" action="/admin/products/delete/<%= product.id %>" style="display:inline;">
+                    <button class="btn small danger" type="submit">Delete</button>
+                  </form>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="admin-panel">
+        <h2>Customer Orders</h2>
+        <div class="stack-list">
+          <% orders.forEach(order => { %>
+            <div class="stack-item">
+              <strong><%= order.customerName %></strong>
+              <span><%= order.phone %></span>
+              <span><%= order.address %></span>
+              <span>Total: $<%= order.total %></span>
+            </div>
+          <% }) %>
+        </div>
+      </section>
+
+      <section class="admin-panel">
+        <h2>Contact Requests</h2>
+        <div class="stack-list">
+          <% contacts.forEach(contact => { %>
+            <div class="stack-item">
+              <strong><%= contact.name %></strong>
+              <span><%= contact.email %></span>
+              <span><%= contact.message %></span>
+            </div>
+          <% }) %>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

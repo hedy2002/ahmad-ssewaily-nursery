@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard | Ahmad Siwaily Nursery</title>
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="container admin-shell">
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:16px; margin-bottom:20px;">
+        <div>
+          <h1 style="margin:0;" data-i18n="admin">Nursery Admin Dashboard</h1>
+          <p class="subtitle" style="margin:6px 0 0; text-align:left;">Manage inventory and products</p>
+        </div>
+        <button id="logoutBtn" class="btn btn-secondary" type="button" data-i18n="logout">Logout</button>
+      </div>
+      <div class="language-switcher" data-language-switcher></div>
+
+      <div class="dashboard-grid">
+        <section class="panel">
+          <h2 data-i18n="inventory">Inventory</h2>
+          <div id="inventoryList" class="inventory-list"></div>
+        </section>
+
+        <aside class="panel">
+          <h2 data-i18n="newProduct">Add New Product</h2>
+          <form id="productForm">
+            <div class="form-group">
+              <label for="title" data-i18n="title">Title</label>
+              <input id="title" name="title" type="text" required />
+            </div>
+            <div class="form-group">
+              <label for="category" data-i18n="category">Category</label>
+              <select id="category" name="category" required>
+                <option value="Indoor Plants">Indoor Plants</option>
+                <option value="Outdoor Trees & Shrubs">Outdoor Trees & Shrubs</option>
+                <option value="Seasonal & Miniature Flowers">Seasonal & Miniature Flowers</option>
+                <option value="Soil & Conditioners">Soil & Conditioners</option>
+                <option value="Pots, Tools & Garden Accessories">Pots, Tools & Garden Accessories</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="price" data-i18n="price">Price</label>
+              <input id="price" name="price" type="number" min="0" required />
+            </div>
+            <div class="form-group">
+              <label for="image" data-i18n="image">Image</label>
+              <input id="image" name="image" type="file" accept="image/*" />
+            </div>
+            <div class="form-group">
+              <label for="description" data-i18n="description">Description</label>
+              <textarea id="description" name="description" rows="3" required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="careGuide">Care Guide</label>
+              <textarea id="careGuide" name="careGuide" rows="3" required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="inStock" data-i18n="availability">Availability</label>
+              <select id="inStock" name="inStock">
+                <option value="true">In Stock</option>
+                <option value="false">Out of Stock</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="featured" data-i18n="featuredLabel">Featured</label>
+              <select id="featured" name="featured">
+                <option value="false" data-i18n="no">No</option>
+                <option value="true" data-i18n="yes">Yes</option>
+              </select>
+            </div>
+            <div class="form-actions">
+              <a class="btn btn-secondary" href="/" data-i18n="viewStore">View Store</a>
+              <button class="btn btn-primary" type="submit" data-i18n="save">Save Product</button>
+            </div>
+          </form>
+        </aside>
+      </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+    <script src="/languages.js"></script>
+    <script src="/app.js"></script>
+  </body>
+</html>

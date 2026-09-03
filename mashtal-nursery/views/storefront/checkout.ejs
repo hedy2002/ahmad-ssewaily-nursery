@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/public/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav">
+        <div class="brand">🌿 Mashtal Nursery</div>
+        <nav>
+          <a href="/">Home</a>
+          <a href="/shop">Shop</a>
+          <a href="/cart">Cart</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="section container checkout-page">
+      <h1>Checkout</h1>
+      <div class="checkout-layout">
+        <form class="checkout-form" method="POST" action="/checkout">
+          <label>
+            Customer Name
+            <input type="text" name="customerName" required />
+          </label>
+          <label>
+            Phone Number
+            <input type="tel" name="phone" required />
+          </label>
+          <label>
+            Delivery Address
+            <textarea name="address" rows="4" required></textarea>
+          </label>
+          <button type="submit" class="btn primary full">Place Order</button>
+        </form>
+
+        <aside class="cart-summary">
+          <h3>Order Summary</h3>
+          <% cart.forEach(item => { %>
+            <div class="row">
+              <span><%= item.title %> x <%= item.qty %></span>
+              <strong>$<%= item.price * item.qty %></strong>
+            </div>
+          <% }) %>
+          <div class="row total">
+            <span>Total</span>
+            <strong>$<%= total %></strong>
+          </div>
+        </aside>
+      </div>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/public/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav">
+        <div class="brand">🌿 Mashtal Nursery</div>
+        <nav>
+          <a href="/">Home</a>
+          <a href="/shop">Shop</a>
+          <a href="/cart" class="cart-link">Cart (<span id="cartCount"><%= (cart || []).reduce((sum, item) => sum + item.qty, 0) %></span>)</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="section container cart-page">
+      <h1>Your Cart</h1>
+      <% if (!cart || cart.length === 0) { %>
+        <div class="empty-state">Your cart is empty.</div>
+      <% } else { %>
+        <div class="cart-layout">
+          <div class="cart-items">
+            <% cart.forEach(item => { %>
+              <div class="cart-item">
+                <img src="<%= item.image %>" alt="<%= item.title %>" />
+                <div class="item-details">
+                  <h3><%= item.title %></h3>
+                  <p>$<%= item.price %> each</p>
+                  <form method="POST" action="/cart/update">
+                    <input type="hidden" name="id" value="<%= item.id %>" />
+                    <label>Qty</label>
+                    <input type="number" name="qty" min="1" value="<%= item.qty %>" />
+                    <button type="submit" class="btn small secondary">Update</button>
+                  </form>
+                </div>
+                <form method="POST" action="/cart/remove">
+                  <input type="hidden" name="id" value="<%= item.id %>" />
+                  <button type="submit" class="btn small danger">Remove</button>
+                </form>
+              </div>
+            <% }) %>
+          </div>
+
+          <aside class="cart-summary">
+            <h3>Order Summary</h3>
+            <div class="row"><span>Subtotal</span><strong>$<%= total %></strong></div>
+            <div class="row"><span>Delivery</span><strong>Free</strong></div>
+            <div class="row total"><span>Total</span><strong>$<%= total %></strong></div>
+            <a href="/checkout" class="btn primary full">Proceed to Checkout</a>
+          </aside>
+        </div>
+      <% } %>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/public/styles.css" />
+  </head>
+  <body class="admin-body">
+    <aside class="admin-sidebar">
+      <h2>Mashtal Admin</h2>
+      <nav>
+        <a href="/admin">Dashboard</a>
+        <a href="/admin/products/new">Add Product</a>
+        <a href="/admin/logout">Logout</a>
+      </nav>
+    </aside>
+
+    <main class="admin-main">
+      <div class="admin-topbar">
+        <h1><%= product ? 'Edit Product' : 'Add Product' %></h1>
+      </div>
+
+      <section class="admin-panel form-panel">
+        <form method="POST" action="<%= product ? `/admin/products/edit/${product.id}` : '/admin/products/new' %>" enctype="multipart/form-data" class="admin-form">
+          <label>
+            Title
+            <input type="text" name="title" value="<%= product ? product.title : '' %>" required />
+          </label>
+
+          <label>
+            Category
+            <select name="category" required>
+              <option value="Indoor Plants" <%= product && product.category === 'Indoor Plants' ? 'selected' : '' %>>Indoor Plants</option>
+              <option value="Outdoor Plants" <%= product && product.category === 'Outdoor Plants' ? 'selected' : '' %>>Outdoor Plants</option>
+              <option value="Flowering Plants" <%= product && product.category === 'Flowering Plants' ? 'selected' : '' %>>Flowering Plants</option>
+              <option value="Herbs" <%= product && product.category === 'Herbs' ? 'selected' : '' %>>Herbs</option>
+            </select>
+          </label>
+
+          <label>
+            Price
+            <input type="number" step="0.01" name="price" value="<%= product ? product.price : '' %>" required />
+          </label>
+
+          <label>
+            Stock
+            <input type="number" name="stock" value="<%= product ? product.stock : '' %>" required />
+          </label>
+
+          <label>
+            Description
+            <textarea name="description" rows="4" required><%= product ? product.description : '' %></textarea>
+          </label>
+
+          <label>
+            Product Image
+            <input type="file" name="image" accept="image/*" />
+          </label>
+
+          <button type="submit" class="btn primary"><%= product ? 'Update Product' : 'Save Product' %></button>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>

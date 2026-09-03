@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/public/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav">
+        <div class="brand">🌿 Mashtal Nursery</div>
+        <nav>
+          <a href="/">Home</a>
+          <a href="/shop">Shop</a>
+          <a href="/cart" class="cart-link">Cart (<span id="cartCount"><%= (cart || []).reduce((sum, item) => sum + item.qty, 0) %></span>)</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="section container single-product">
+      <div class="product-detail-card">
+        <img src="<%= product.image %>" alt="<%= product.title %>" />
+        <div>
+          <span class="tag"><%= product.category %></span>
+          <h1><%= product.title %></h1>
+          <p class="price">$<%= product.price %></p>
+          <p><%= product.description %></p>
+          <div class="stock-row">
+            <span>Available: <strong><%= product.stock %></strong></span>
+          </div>
+          <button class="btn primary add-to-cart" data-id="<%= product.id %>">Add to Cart</button>
+          <a class="btn secondary" href="/shop">Continue Shopping</a>
+        </div>
+      </div>
+    </main>
+
+    <script src="/public/script.js"></script>
+  </body>
+</html>

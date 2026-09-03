@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/public/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav">
+        <div class="brand">🌿 Mashtal Nursery</div>
+        <nav>
+          <a href="/">Home</a>
+          <a href="/shop">Shop</a>
+          <a href="/cart" class="cart-link">Cart (<span id="cartCount"><%= (cart || []).reduce((sum, item) => sum + item.qty, 0) %></span>)</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="section container">
+      <div class="section-head">
+        <h1>Plant Collection</h1>
+      </div>
+
+      <div class="filters">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <% const categories = [...new Set(products.map(item => item.category))]; %>
+        <% categories.forEach(category => { %>
+          <button class="filter-btn" data-filter="<%= category %>"><%= category %></button>
+        <% }) %>
+      </div>
+
+      <div class="product-grid">
+        <% products.forEach(product => { %>
+          <article class="product-card" data-category="<%= product.category %>">
+            <img src="<%= product.image %>" alt="<%= product.title %>" />
+            <div class="product-body">
+              <span class="tag"><%= product.category %></span>
+              <h3><%= product.title %></h3>
+              <p><%= product.description %></p>
+              <div class="meta">
+                <strong>$<%= product.price %></strong>
+                <span><%= product.stock %> in stock</span>
+              </div>
+              <div class="card-actions">
+                <a class="btn small" href="/product/<%= product.id %>">View</a>
+                <button class="btn small primary add-to-cart" data-id="<%= product.id %>">Add</button>
+              </div>
+            </div>
+          </article>
+        <% }) %>
+      </div>
+    </main>
+
+    <script src="/public/script.js"></script>
+  </body>
+</html>

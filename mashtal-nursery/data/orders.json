@@ -1,0 +1,13 @@
+[
+  {
+    "id": 1,
+    "customerName": "Shilan Rafiq",
+    "phone": "+9647700001111",
+    "address": "Erbil, 100m Road",
+    "items": [
+      { "title": "Snake Plant", "qty": 1, "price": 28 }
+    ],
+    "total": 28,
+    "createdAt": "2026-08-30T10:00:00.000Z"
+  }
+]

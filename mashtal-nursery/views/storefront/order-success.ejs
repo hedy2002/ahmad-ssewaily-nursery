@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/public/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav">
+        <div class="brand">🌿 Mashtal Nursery</div>
+        <nav>
+          <a href="/">Home</a>
+          <a href="/shop">Shop</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="section container success-page">
+      <div class="success-box">
+        <h1>Order Placed Successfully</h1>
+        <p>Thank you, <strong><%= order.customerName %></strong>. Your order has been received.</p>
+        <p>Order ID: <strong>#<%= order.id %></strong></p>
+        <p>Total: <strong>$<%= order.total %></strong></p>
+        <a href="/shop" class="btn primary">Continue Shopping</a>
+      </div>
+    </main>
+  </body>
+</html>

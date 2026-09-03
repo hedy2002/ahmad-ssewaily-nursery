@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#1f5f3d" />
+    <title>Shop | Ahmad Siwaily Nursery</title>
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <div class="brand">
+          <div class="logo-mark">🌿</div>
+          <span>Ahmad Siwaily Nursery</span>
+        </div>
+        <nav class="nav">
+          <a href="/" data-i18n="home">Home</a>
+          <a href="/shop.html" data-i18n="shop">Shop</a>
+          <a href="/cart.html"><span data-i18n="cart">Cart</span> <span id="cartBadge" class="cart-badge">0</span></a>
+          <a href="/admin-login.html" class="primary" data-i18n="admin">Admin</a>
+        </nav>
+        <div class="language-switcher" data-language-switcher></div>
+      </div>
+    </header>
+
+    <main class="shop-wrap">
+      <div class="container">
+        <div class="toolbar">
+          <input id="searchInput" type="search" data-i18n-placeholder="search" placeholder="Search plants or products..." aria-label="Search plants or products" style="min-width: 220px; padding: 10px 14px; border: 1px solid rgba(20,61,47,0.18); border-radius: 999px;" />
+          <select id="categoryFilter" aria-label="Filter by category"><option value="">All categories</option><option>Indoor Plants</option><option>Outdoor Trees &amp; Shrubs</option><option>Seasonal &amp; Miniature Flowers</option><option>Soil &amp; Conditioners</option><option>Pots, Tools &amp; Garden Accessories</option></select>
+          <select id="sunlightFilter" aria-label="Filter by sunlight"><option value="">Any sunlight</option><option>Direct</option><option>Indirect</option><option>Shade</option></select>
+          <select id="wateringFilter" aria-label="Filter by watering"><option value="">Any watering</option><option>Daily</option><option>Weekly</option><option>Low</option></select>
+          <select id="seasonFilter" aria-label="Filter by season"><option value="">Any season</option><option>Spring</option><option>Summer</option><option>Autumn</option><option>Winter</option><option>All seasons</option></select>
+        </div>
+        <div id="productGrid" class="products-grid"></div>
+      </div>
+    </main>
+
+    <script src="/languages.js"></script>
+    <script src="/app.js"></script>
+  </body>
+</html>

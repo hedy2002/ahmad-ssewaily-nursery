@@ -1,0 +1,4 @@
+[
+  { "code": "GREEN10", "type": "percentage", "value": 10, "active": true },
+  { "code": "WELCOME5000", "type": "fixed", "value": 5000, "active": true }
+]

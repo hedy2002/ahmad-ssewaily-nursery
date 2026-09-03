@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#16a34a" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="ئەحمەد سوەیلی" />
+    <meta name="description" content="Ahmad Siwaily Nursery offers indoor plants, outdoor trees, flowers, soil, pots, and garden supplies." />
+    <title>Ahmad Siwaily Nursery</title>
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" href="/icons/icon-192.png" type="image/png" />
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="apple-touch-icon" href="/icon-192.png" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <div class="brand">
+          <div class="logo-circle">🌿</div>
+          <span>Ahmad Siwaily Nursery</span>
+        </div>
+        <nav class="nav">
+          <a href="#categories" data-i18n="categories">Categories</a>
+          <a href="#featured" data-i18n="featured">Featured</a>
+          <a href="#about" data-i18n="about">About</a>
+          <a class="cta" href="https://wa.me/9647500000000?text=Hello%20Ahmad%20Siwaily%20Nursery%2C%20I%20want%20to%20place%20an%20order." target="_blank" rel="noreferrer" data-i18n="orderNow">Order Now</a>
+        </nav>
+        <div class="language-switcher" data-language-switcher></div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container hero-card">
+          <div class="hero-copy">
+            <span class="eyebrow">Your Green Space Starts Here</span>
+            <h1>Healthy plants for every home and garden.</h1>
+            <p>From lush indoor greenery to outdoor fruit trees and premium soil essentials, Ahmad Siwaily Nursery brings beauty, freshness, and sustainable living to every corner of your space.</p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#featured">Shop Collection</a>
+              <a class="btn btn-secondary" href="/admin/login">Admin Login</a>
+            </div>
+            <div class="stats">
+              <div class="stat"><strong>500+</strong><span>Plants</span></div>
+              <div class="stat"><strong>1200+</strong><span>Happy Clients</span></div>
+              <div class="stat"><strong>24/7</strong><span>Support</span></div>
+            </div>
+          </div>
+          <div class="hero-visual">
+            <img src="https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?auto=format&fit=crop&w=1200&q=80" alt="Nursery greens" />
+          </div>
+        </div>
+      </section>
+
+      <section id="categories" class="section">
+        <div class="container">
+          <div class="section-head">
+            <h2>Shop by Category</h2>
+            <small>Fresh plant care essentials</small>
+          </div>
+          <div class="categories">
+            <div class="category-card">
+              <div class="category-icon">🪴</div>
+              <h3>Indoor Plants</h3>
+              <p>Monstera, Peace Lily, ZZ Plant</p>
+            </div>
+            <div class="category-card">
+              <div class="category-icon">🌳</div>
+              <h3>Outdoor Trees</h3>
+              <p>Fruit trees and shrubs</p>
+            </div>
+            <div class="category-card">
+              <div class="category-icon">🌼</div>
+              <h3>Seasonal Flowers</h3>
+              <p>Miniature and flowering varieties</p>
+            </div>
+            <div class="category-card">
+              <div class="category-icon">🌱</div>
+              <h3>Soil & Feed</h3>
+              <p>Peat moss, LECA, NPK, organic fertilizer</p>
+            </div>
+            <div class="category-card">
+              <div class="category-icon">🧰</div>
+              <h3>Accessories</h3>
+              <p>Pots, tools, and gardening gear</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="featured" class="section">
+        <div class="container">
+          <div class="section-head">
+            <h2>Featured Products</h2>
+            <small>High-quality nursery essentials</small>
+          </div>
+          <div id="productGrid" class="products-grid"></div>
+        </div>
+      </section>
+
+      <section id="about" class="section">
+        <div class="container">
+          <div class="feature-banner">
+            <div>
+              <span class="eyebrow" style="background: rgba(47,111,79,0.08); color: var(--green-900); border-color: rgba(47,111,79,0.14);">Why Choose Us</span>
+              <h3>Healthy plants, trusted care, and dependable service.</h3>
+              <p>We help homeowners, property managers, and garden lovers create greener spaces with resilient plants and expert guidance on care and growth.</p>
+              <ul class="feature-list">
+                <li>Expert plant consultation</li>
+                <li>Eco-friendly growing media</li>
+                <li>Wholesale and retail support</li>
+              </ul>
+            </div>
+            <img src="https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?auto=format&fit=crop&w=1000&q=80" alt="Plant nursery stall" style="border-radius:24px; height: 100%; min-height: 260px; object-fit: cover;" />
+          </div>
+        </div>
+      </section>
+
+      <section id="faq" class="section">
+        <div class="container">
+          <div class="section-head"><h2>Frequently Asked Questions</h2><small>Helpful answers for new plant parents</small></div>
+          <div class="faq-list">
+            <details><summary>How do you deliver plants?</summary><p>We confirm your location by phone and arrange careful local delivery with the order details.</p></details>
+            <details><summary>How often should I water my plant?</summary><p>Check the care badges on each product. Most indoor plants prefer weekly watering, while low-water plants need much less.</p></details>
+            <details><summary>Can I order directly through WhatsApp?</summary><p>Yes. Use the WhatsApp button on any product card or product page to contact the nursery directly.</p></details>
+            <details><summary>What should I do if a product is out of stock?</summary><p>Open its product page and submit your email or phone number. We will keep your request in the availability list.</p></details>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-inner">
+        <div>© 2026 Ahmad Siwaily Nursery</div>
+        <div>هەموو مێز و ڕووەکی زانستیەتی</div>
+      </div>
+    </footer>
+
+    <div id="toast" class="toast"></div>
+    <script src="/languages.js"></script>
+    <script src="/app.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      }
+    </script>
+  </body>
+</html>

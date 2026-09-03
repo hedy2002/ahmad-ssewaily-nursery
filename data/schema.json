@@ -1,0 +1,62 @@
+{
+  "products": {
+    "id": "string",
+    "title": "string",
+    "category": "Indoor Plants | Outdoor Trees & Shrubs | Seasonal & Miniature Flowers | Soil & Conditioners | Pots, Tools & Garden Accessories",
+    "price": "number",
+    "description": "string",
+    "careGuide": "string",
+    "sunlight": "Direct | Indirect | Shade",
+    "watering": "Daily | Weekly | Low",
+    "temperature": "string",
+    "season": "Spring | Summer | Autumn | Winter | All seasons",
+    "image": "string",
+    "inStock": "boolean",
+    "featured": "boolean"
+  },
+  "orders": {
+    "id": "string",
+    "customer": "{ name, phone, address, notes }",
+    "items": "array",
+    "total": "number",
+    "status": "Pending | Shipped | Delivered",
+    "createdAt": "ISO-8601 string"
+  },
+  "reviews": {
+    "id": "string",
+    "productId": "string",
+    "name": "string",
+    "rating": "integer 1-5",
+    "comment": "string",
+    "approved": "boolean",
+    "createdAt": "ISO-8601 string"
+  },
+  "availabilityNotifications": {
+    "id": "string",
+    "productId": "string",
+    "productTitle": "string",
+    "email": "string",
+    "phone": "string",
+    "notified": "boolean",
+    "createdAt": "ISO-8601 string"
+  },
+  "promos": {
+    "code": "string",
+    "type": "percentage | fixed",
+    "value": "number",
+    "active": "boolean"
+  },
+  "activityLog": {
+    "id": "string",
+    "actor": "string",
+    "role": "customer | admin | superadmin",
+    "action": "string",
+    "details": "object",
+    "createdAt": "ISO-8601 string"
+  },
+  "admins": {
+    "username": "string",
+    "password": "string",
+    "role": "admin | superadmin"
+  }
+}

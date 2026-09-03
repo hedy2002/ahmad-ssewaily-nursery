@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ckb">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سیستەمی مەشتەلی ئەحمەد سیوەیلی</title>
+    <script>
+        if (window.location.protocol === 'file:') {
+            window.location.replace('http://localhost:3000/');
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700&display=swap');
+
+        * { box-sizing: border-box; font-family: 'Vazirmatn', sans-serif; margin: 0; padding: 0; }
+        body { background-color: #f1f5f9; color: #1e293b; direction: rtl; display: flex; min-height: 100vh; }
+
+        /* Sidebar */ 
+        .sidebar { width: 260px; background: #0f172a; color: white; padding: 20px 15px; position: fixed; height: 100vh; right: 0; top: 0; box-shadow: -2px 0 10px rgba(0,0,0,0.1); }
+        .sidebar h3 { font-size: 18px; margin-bottom: 5px; color: #4ade80; text-align: center; }
+        .user-info { font-size: 12px; color: #94a3b8; text-align: center; margin-bottom: 25px; border-bottom: 1px solid #334155; padding-bottom: 12px; }
+        .sidebar button { display: block; width: 100%; text-align: right; background: none; border: none; color: #cbd5e1; padding: 12px 15px; font-size: 14px; font-weight: 600; border-radius: 8px; margin-bottom: 8px; cursor: pointer; transition: 0.2s; }
+        .sidebar button:hover, .sidebar button.active { background: #16a34a; color: white; }
+
+        /* Main Content */
+        .content { margin-right: 260px; padding: 30px; width: calc(100% - 260px); }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+
+        /* Form Styling */
+        .card-form { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); margin-bottom: 30px; }
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 14px; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; outline: none; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: #16a34a; }
+        .form-row { display: flex; gap: 15px; }
+        .form-row .col { flex: 1; }
+        .highlight-box { background: #f0fdf4; border: 1px solid #bbf7d0; padding: 12px 18px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
+        .total-badge { font-size: 22px; font-weight: bold; color: #16a34a; }
+
+        .btn { padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; border: none; font-size: 14px; transition: 0.2s; }
+        .btn-primary { background: #16a34a; color: white; }
+        .btn-primary:hover { background: #15803d; }
+        .btn-delete { background: #ef4444; color: white; padding: 5px 10px; border-radius: 6px; font-size: 12px; cursor: pointer; border: none; }
+
+        .lang-switch { display: flex; gap: 8px; margin: 0 0 18px; }
+        .lang-btn { flex: 1; border: 1px solid #334155; background: transparent; color: #e2e8f0; border-radius: 8px; padding: 8px 10px; cursor: pointer; font-weight: 600; }
+        .lang-btn.active { background: #16a34a; border-color: #16a34a; color: white; }
+
+        .image-preview { margin-top: 10px; display: none; }
+        .image-preview img { width: 110px; height: 110px; object-fit: cover; border-radius: 10px; border: 2px solid #bbf7d0; background: #f8fafc; }
+        .product-image { width: 70px; height: 70px; object-fit: cover; border-radius: 8px; border: 1px solid #e2e8f0; background: #f8fafc; }
+        .image-thumb-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .image-thumb-item {
+            position: relative;
+            width: 70px;
+            height: 70px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #dbeafe;
+            background: #f8fafc;
+        }
+        .image-thumb-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .image-thumb-remove {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 18px;
+            height: 18px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(239, 68, 68, 0.95);
+            color: white;
+            font-size: 11px;
+            cursor: pointer;
+            line-height: 18px;
+            text-align: center;
+            padding: 0;
+        }
+        .remove-image-btn {
+            margin-top: 8px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 6px 10px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .edit-btn {
+            background: #2563eb;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            border: none;
+            margin-left: 6px;
+        }
+
+        /* Responsive Layout */
+        @media (max-width: 1024px) {
+            body { display: block; }
+
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                box-shadow: none;
+                border-bottom: 1px solid #1f2937;
+            }
+
+            .content {
+                margin-right: 0;
+                width: 100%;
+                padding: 20px;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                margin-bottom: 18px;
+            }
+
+            .header h2 {
+                font-size: 20px;
+            }
+
+            .content {
+                padding: 15px;
+            }
+
+            .card-form {
+                padding: 18px 14px;
+            }
+
+            .form-group label {
+                font-size: 13px;
+            }
+
+            .highlight-box {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .lang-switch {
+                flex-direction: column;
+            }
+
+            .sidebar button {
+                text-align: right;
+                padding: 11px 12px;
+                font-size: 13px;
+            }
+
+            .table-container {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .data-table {
+                min-width: 760px;
+            }
+        }
+
+        /* Table Styling */
+        .search-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        .search-box {
+            display: flex;
+            justify-content: flex-start;
+            flex: 1;
+            min-width: 220px;
+        }
+        .search-input {
+            width: 100%;
+            max-width: 420px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            font-size: 14px;
+            outline: none;
+        }
+        .search-input:focus {
+            border-color: #16a34a;
+        }
+        .sort-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: white;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 8px 10px;
+        }
+        .sort-box label {
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .sort-select {
+            border: none;
+            background: transparent;
+            font-size: 13px;
+            outline: none;
+            color: #0f172a;
+        }
+        .clear-search-btn {
+            background: #e2e8f0;
+            color: #0f172a;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .export-btn {
+            background: #16a34a;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .table-container { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        .data-table { width: 100%; border-collapse: collapse; text-align: center; }
+        .data-table th, .data-table td { padding: 14px; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
+        .data-table th { background: #1e293b; color: white; font-weight: 600; }
+        .badge { background: #e2e8f0; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: bold; }
+        .stock-in { color: #16a34a; font-weight: bold; }
+        .stock-out { color: #dc2626; font-weight: bold; }
+        .empty-msg { padding: 20px; color: #64748b; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h3 data-i18n="appTitle">مەشتەلی ئەحمەد سیوەیلی</h3>
+        <div class="user-info" data-i18n="appSubtitle">سیستەمی بەڕێوەبردنی کۆگا</div>
+
+        <div class="lang-switch">
+            <button type="button" class="lang-btn active" data-lang="ku">کوردی</button>
+            <button type="button" class="lang-btn" data-lang="en">English</button>
+            <button type="button" class="lang-btn" data-lang="ar">العربية</button>
+            <button type="button" class="lang-btn" data-lang="tr">Türkçe</button>
+            <button type="button" class="lang-btn" data-lang="fa">فارسی</button>
+            <button type="button" class="lang-btn" data-lang="it">Italiano</button>
+        </div>
+
+        <button class="nav-btn active" data-key="navAll" onclick="filterCategory('هەمووی', this)">📋 کۆی کاڵاکان</button>
+        <button class="nav-btn" data-key="navPlants" onclick="filterCategory('ڕووەک', this)">🪴 بەشی ڕووەکەکان</button>
+        <button class="nav-btn" data-key="navMedicine" onclick="filterCategory('دەرامان', this)">💊 بەشی دەرمان</button>
+        <button class="nav-btn" data-key="navSoil" onclick="filterCategory('خاکەناز و مزەخە', this)">🛠️ خاکەناز و مزەخە</button>
+        <button class="nav-btn" data-key="navFood" onclick="filterCategory('مادەی خۆراکی', this)">🌿 مادە خۆراکییەکان</button>
+        <button class="nav-btn" data-key="navOther" onclick="filterCategory('بەشی تر', this)">📦 بەشەکانی تر</button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <div class="header">
+            <h2 data-i18n="pageTitle">تۆمارکردن و بەڕێوەبردنی کاڵاکان</h2>
+        </div>
+
+        <!-- Add Product Form -->
+        <form class="card-form" id="productForm">
+            <div class="form-group">
+                <label data-i18n="productNameLabel">ناوی کاڵا / ڕووەک:</label>
+                <input type="text" id="p_name" data-i18n-placeholder="productNamePlaceholder" placeholder="ناوی کاڵا، ڕووەک، یان پەین..." required>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col">
+                    <label data-i18n="categoryLabel">بەش (پۆلێن):</label>
+                    <select id="p_category" required>
+                        <option value="ڕووەک" data-i18n-option="categoryPlant">🪴 بەشی ڕووەکەکان</option>
+                        <option value="دەرامان" data-i18n-option="categoryMedicine">💊 بەشی دەرمان</option>
+                        <option value="خاکەناز و مزەخە" data-i18n-option="categorySoil">🛠️ بەشی خاکەناز و مزەخە</option>
+                        <option value="مادەی خۆراکی" data-i18n-option="categoryFood">🌿 بەشی مادە خۆراکییەکان</option>
+                        <option value="بەشی تر" data-i18n-option="categoryOther">📦 بەشی تر</option>
+                    </select>
+                </div>
+                <div class="form-group col">
+                    <label data-i18n="priceLabel">نرخی کاڵا (د.ع):</label>
+                    <input type="number" id="p_price" data-i18n-placeholder="pricePlaceholder" placeholder="مثلاً: 5000" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col">
+                    <label data-i18n="stockInLabel">عەدەدی لە کۆگاداهەیە (Stock In):</label>
+                    <input type="number" id="p_stock_in" value="0" required>
+                </div>
+                <div class="form-group col">
+                    <label data-i18n="stockOutLabel">عەدەدی لە کۆگادانییە / دەستبەجێ (Stock Out):</label>
+                    <input type="number" id="p_stock_out" value="0" required>
+                </div>
+            </div>
+
+            <div class="form-group highlight-box">
+                <label data-i18n="totalLabel">کۆی گشتی عەدەد (ئۆتۆماتیک):</label>
+                <div><span id="total_display" class="total-badge">0</span> <span data-i18n="unitPieces">دانە</span></div>
+            </div>
+
+            <div class="form-group">
+                <label data-i18n="imageLabel">وێنەی کاڵا:</label>
+                <input type="file" id="p_image" accept="image/*" multiple>
+                <div id="imagePreview" class="image-preview">
+                    <div id="imageThumbList" class="image-thumb-list"></div>
+                    <div>
+                        <button type="button" id="removeImageBtn" class="remove-image-btn" data-i18n="removeImageBtn">Remove Image</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label data-i18n="notesLabel">تێبینی لەسەر کاڵا:</label>
+                <textarea id="p_notes" rows="2" data-i18n-placeholder="notesPlaceholder" placeholder="ڕێنمایی بەکارهێنان یان زانیاری تایبەت..."></textarea>
+            </div>
+
+            <button type="submit" id="submitProductBtn" class="btn btn-primary" data-i18n="saveButton">+ تۆمارکردنی کاڵا</button>
+            <button type="button" id="cancelEditBtn" class="btn" style="display:none; background:#e2e8f0; color:#0f172a; margin-right:10px;" data-i18n="cancelEditBtn">Cancel Edit</button>
+        </form>
+
+        <!-- Product Table -->
+        <h3 id="tableTitle" style="margin-bottom: 15px;" data-i18n="tableAll">لیستی کۆی کاڵاکان</h3>
+        <div class="search-toolbar">
+            <div class="search-box">
+                <input type="text" id="searchInput" class="search-input" placeholder="گەڕان بە ناو یان بەش..." aria-label="Search products">
+            </div>
+            <div class="sort-box">
+                <label for="sortSelect" data-i18n="sortLabel">ڕیزکردن:</label>
+                <select id="sortSelect" class="sort-select">
+                    <option value="default" data-i18n-option="sortDefault">بەشوێنی هەڵبژاردن</option>
+                    <option value="nameAsc" data-i18n-option="sortNameAsc">ناو (A-Z)</option>
+                    <option value="priceAsc" data-i18n-option="sortPriceAsc">نرخ (کەم بۆ زۆر)</option>
+                    <option value="priceDesc" data-i18n-option="sortPriceDesc">نرخ (زۆر بۆ کەم)</option>
+                    <option value="stockDesc" data-i18n-option="sortStockDesc">کۆی ژمارە (زۆرتر)</option>
+                </select>
+            </div>
+            <button type="button" id="clearSearchBtn" class="clear-search-btn" data-i18n="clearSearchBtn">Clear</button>
+            <button type="button" id="exportBtn" class="export-btn" data-i18n="exportBtn">Export Excel</button>
+        </div>
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th data-i18n="tableProductName">ناوی کاڵا</th>
+                        <th data-i18n="imageColumn">وێنە</th>
+                        <th data-i18n="tableCategory">بەش</th>
+                        <th data-i18n="tablePrice">نرخ</th>
+                        <th data-i18n="tableStockIn">لە کۆگادایە</th>
+                        <th data-i18n="tableStockOut">لە کۆگادانییە</th>
+                        <th data-i18n="tableTotal">کۆی گشتی</th>
+                        <th data-i18n="tableNotes">تێبینی</th>
+                        <th data-i18n="tableAction">کردار</th>
+                    </tr>
+                </thead>
+                <tbody id="productTableBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- JavaScript Script -->
+    <script>
+        let products = [];
+        let currentFilter = 'هەمووی';
+        let currentLanguage = 'ku';
+        let sortMode = 'default';
+
+        const translations = {
+            ku: {
+                appTitle: 'مەشتەلی ئەحمەد سیوەیلی',
+                appSubtitle: 'سیستەمی بەڕێوەبردنی کۆگا',
+                pageTitle: 'تۆمارکردن و بەڕێوەبردنی کاڵاکان',
+                navAll: '📋 کۆی کاڵاکان',
+                navPlants: '🪴 بەشی ڕووەکەکان',
+                navMedicine: '💊 بەشی دەرمان',
+                navSoil: '🛠️ خاکەناز و مزەخە',
+                navFood: '🌿 مادە خۆراکییەکان',
+                navOther: '📦 بەشەکانی تر',
+                productNameLabel: 'ناوی کاڵا / ڕووەک:',
+                productNamePlaceholder: 'ناوی کاڵا، ڕووەک، یان پەین...',
+                categoryLabel: 'بەش (پۆلێن):',
+                categoryPlant: '🪴 بەشی ڕووەکەکان',
+                categoryMedicine: '💊 بەشی دەرمان',
+                categorySoil: '🛠️ بەشی خاکەناز و مزەخە',
+                categoryFood: '🌿 بەشی مادە خۆراکییەکان',
+                categoryOther: '📦 بەشی تر',
+                priceLabel: 'نرخی کاڵا (د.ع):',
+                pricePlaceholder: 'مثلاً: 5000',
+                stockInLabel: 'عەدەدی لە کۆگاداهەیە (Stock In):',
+                stockOutLabel: 'عەدەدی لە کۆگادانییە / دەستبەجێ (Stock Out):',
+                totalLabel: 'کۆی گشتی عەدەد (ئۆتۆماتیک):',
+                unitPieces: 'دانە',
+                notesLabel: 'تێبینی لەسەر کاڵا:',
+                notesPlaceholder: 'ڕێنمایی بەکارهێنان یان زانیاری تایبەت...',
+                saveButton: '+ تۆمارکردنی کاڵا',
+                cancelEditBtn: 'هەڵوەشاندنەوەی دەسکاریکردن',
+                imageLabel: 'وێنەی کاڵا:',
+                imageColumn: 'وێنە',
+                removeImageBtn: 'لابردنی وێنە',
+                tableAll: 'لیستی کۆی کاڵاکان',
+                tableProductName: 'ناوی کاڵا',
+                tableCategory: 'بەش',
+                tablePrice: 'نرخ',
+                tableStockIn: 'لە کۆگادایە',
+                tableStockOut: 'لە کۆگادانییە',
+                tableTotal: 'کۆی گشتی',
+                tableNotes: 'تێبینی',
+                tableAction: 'کردار',
+                emptyMessage: 'هیچ کاڵایەک تائێستا لەم بەشەدا تۆمار نەکراوە.',
+                confirmDelete: 'دڵنیایت لە سڕینەوەی ئەم کاڵایە؟',
+                missingName: 'ناوی کاڵا دابین بکە',
+                tableSection: 'لیستی کاڵاکانی بەشی:',
+                deleteBtn: 'سڕینەوە',
+                searchPlaceholder: 'گەڕان بە ناو یان بەش...',
+                sortLabel: 'ڕیزکردن:',
+                sortDefault: 'بەشوێنی هەڵبژاردن',
+                sortNameAsc: 'ناو (A-Z)',
+                sortPriceAsc: 'نرخ (کەم بۆ زۆر)',
+                sortPriceDesc: 'نرخ (زۆر بۆ کەم)',
+                sortStockDesc: 'کۆی ژمارە (زۆرتر)',
+                clearSearchBtn: 'پاککردنەوە',
+                exportBtn: 'تصدير Excel'
+            },
+            en: {
+                appTitle: 'Mashtal Ahmad Siwaily',
+                appSubtitle: 'Warehouse Management System',
+                pageTitle: 'Add and Manage Products',
+                navAll: '📋 All Products',
+                navPlants: '🪴 Plants',
+                navMedicine: '💊 Medicine',
+                navSoil: '🛠️ Soil and Fertilizer',
+                navFood: '🌿 Food Items',
+                navOther: '📦 Other Sections',
+                productNameLabel: 'Product / Plant Name:',
+                productNamePlaceholder: 'Product name, plant, or item...',
+                categoryLabel: 'Section (Category):',
+                categoryPlant: '🪴 Plants Section',
+                categoryMedicine: '💊 Medicine Section',
+                categorySoil: '🛠️ Soil and Fertilizer Section',
+                categoryFood: '🌿 Food Items Section',
+                categoryOther: '📦 Other Section',
+                priceLabel: 'Product Price (USD):',
+                pricePlaceholder: 'Example: 5000',
+                stockInLabel: 'Stock In Quantity:',
+                stockOutLabel: 'Stock Out / Used Quantity:',
+                totalLabel: 'Total Quantity (Automatic):',
+                unitPieces: 'items',
+                notesLabel: 'Notes on the Product:',
+                notesPlaceholder: 'Usage instructions or special information...',
+                saveButton: '+ Add Product',
+                cancelEditBtn: 'Cancel Edit',
+                imageLabel: 'Product Image:',
+                imageColumn: 'Image',
+                removeImageBtn: 'Remove Image',
+                tableAll: 'All Product List',
+                tableProductName: 'Product Name',
+                tableCategory: 'Category',
+                tablePrice: 'Price',
+                tableStockIn: 'In Stock',
+                tableStockOut: 'Out of Stock',
+                tableTotal: 'Total',
+                tableNotes: 'Notes',
+                tableAction: 'Action',
+                emptyMessage: 'No product has been recorded in this section yet.',
+                confirmDelete: 'Are you sure you want to delete this product?',
+                missingName: 'Please provide the product name',
+                tableSection: 'Products in section:',
+                deleteBtn: 'Delete',
+                searchPlaceholder: 'Search by name or category...',
+                sortLabel: 'Sort:',
+                sortDefault: 'Default order',
+                sortNameAsc: 'Name (A-Z)',
+                sortPriceAsc: 'Price (low to high)',
+                sortPriceDesc: 'Price (high to low)',
+                sortStockDesc: 'Total quantity (highest)',
+                clearSearchBtn: 'Clear',
+                exportBtn: 'Export Excel'
+            },
+            ar: {
+                appTitle: 'مشطل أحمد سيلوي',
+                appSubtitle: 'نظام إدارة المخزن',
+                pageTitle: 'إضافة وإدارة المنتجات',
+                navAll: '📋 جميع المنتجات',
+                navPlants: '🪴 قسم النباتات',
+                navMedicine: '💊 قسم الأدوية',
+                navSoil: '🛠️ التربة والأسمدة',
+                navFood: '🌿 المواد الغذائية',
+                navOther: '📦 أقسام أخرى',
+                productNameLabel: 'اسم المنتج / النبات:',
+                productNamePlaceholder: 'اسم المنتج أو النبات أو العنصر...',
+                categoryLabel: 'القسم (الفئة):',
+                categoryPlant: '🪴 قسم النباتات',
+                categoryMedicine: '💊 قسم الأدوية',
+                categorySoil: '🛠️ قسم التربة والأسمدة',
+                categoryFood: '🌿 قسم المواد الغذائية',
+                categoryOther: '📦 قسم آخر',
+                priceLabel: 'سعر المنتج (دولار):',
+                pricePlaceholder: 'مثال: 5000',
+                stockInLabel: 'كمية الداخل إلى المخزن:',
+                stockOutLabel: 'كمية الخارج / الاستخدام:',
+                totalLabel: 'إجمالي الكمية (تلقائي):',
+                unitPieces: 'قطعة',
+                notesLabel: 'ملاحظات حول المنتج:',
+                notesPlaceholder: 'تعليمات الاستخدام أو معلومات خاصة...',
+                saveButton: '+ إضافة منتج',
+                cancelEditBtn: 'إلغاء التعديل',
+                imageLabel: 'صورة المنتج:',
+                imageColumn: 'الصورة',
+                removeImageBtn: 'حذف الصورة',
+                tableAll: 'قائمة جميع المنتجات',
+                tableProductName: 'اسم المنتج',
+                tableCategory: 'القسم',
+                tablePrice: 'السعر',
+                tableStockIn: 'في المخزن',
+                tableStockOut: 'الخارج',
+                tableTotal: 'الإجمالي',
+                tableNotes: 'ملاحظات',
+                tableAction: 'إجراء',
+                emptyMessage: 'لا توجد منتجات مسجلة في هذا القسم بعد.',
+                confirmDelete: 'هل أنت متأكد أنك تريد حذف هذا المنتج؟',
+                missingName: 'يرجى إدخال اسم المنتج',
+                tableSection: 'قائمة المنتجات في القسم:',
+                deleteBtn: 'حذف',
+                searchPlaceholder: 'البحث باسم أو قسم...',
+                sortLabel: 'ترتيب:',
+                sortDefault: 'الترتيب الافتراضي',
+                sortNameAsc: 'الاسم (A-Z)',
+                sortPriceAsc: 'السعر (من الأقل إلى الأعلى)',
+                sortPriceDesc: 'السعر (من الأعلى إلى الأقل)',
+                sortStockDesc: 'الإجمالي (الأعلى أولاً)',
+                clearSearchBtn: 'مسح',
+                exportBtn: 'تصدير Excel'
+            },
+            tr: {
+                appTitle: 'Mashtal Ahmad Siwaily',
+                appSubtitle: 'Depo Yönetim Sistemi',
+                pageTitle: 'Ürün Ekle ve Yönet',
+                navAll: '📋 Tüm Ürünler',
+                navPlants: '🪴 Bitkiler',
+                navMedicine: '💊 İlaçlar',
+                navSoil: '🛠️ Toprak ve Gübre',
+                navFood: '🌿 Gıda Ürünleri',
+                navOther: '📦 Diğer Bölümler',
+                productNameLabel: 'Ürün / Bitki Adı:',
+                productNamePlaceholder: 'Ürün adı, bitki veya öğe...',
+                categoryLabel: 'Bölüm (Kategori):',
+                categoryPlant: '🪴 Bitkiler Bölümü',
+                categoryMedicine: '💊 İlaçlar Bölümü',
+                categorySoil: '🛠️ Toprak ve Gübre Bölümü',
+                categoryFood: '🌿 Gıda Ürünleri Bölümü',
+                categoryOther: '📦 Diğer Bölüm',
+                priceLabel: 'Ürün Fiyatı (USD):',
+                pricePlaceholder: 'Örnek: 5000',
+                stockInLabel: 'Stoka Giren Miktar:',
+                stockOutLabel: 'Stoktan Çıkan / Kullanılan Miktar:',
+                totalLabel: 'Toplam Miktar (Otomatik):',
+                unitPieces: 'adet',
+                notesLabel: 'Ürün Hakkında Notlar:',
+                notesPlaceholder: 'Kullanım talimatları veya özel bilgiler...',
+                saveButton: '+ Ürün Ekle',
+                cancelEditBtn: 'Düzenlemeyi İptal Et',
+                imageLabel: 'Ürün Resmi:',
+                imageColumn: 'Resim',
+                removeImageBtn: 'Resmi Kaldır',
+                tableAll: 'Tüm Ürün Listesi',
+                tableProductName: 'Ürün Adı',
+                tableCategory: 'Kategori',
+                tablePrice: 'Fiyat',
+                tableStockIn: 'Stoktaki',
+                tableStockOut: 'Stok Dışı',
+                tableTotal: 'Toplam',
+                tableNotes: 'Notlar',
+                tableAction: 'İşlem',
+                emptyMessage: 'Bu bölümde henüz hiçbir ürün kaydedilmemiştir.',
+                confirmDelete: 'Bu ürünü silmek istediğinizden emin misiniz?',
+                missingName: 'Lütfen ürün adını girin',
+                tableSection: 'Bölümdeki ürünler:',
+                deleteBtn: 'Sil',
+                searchPlaceholder: 'Ada veya kategoriye göre ara...',
+                sortLabel: 'Sırala:',
+                sortDefault: 'Varsayılan sıra',
+                sortNameAsc: 'Ad (A-Z)',
+                sortPriceAsc: 'Fiyat (düşükten yükseğe)',
+                sortPriceDesc: 'Fiyat (yüksekten düşüğe)',
+                sortStockDesc: 'Toplam miktar (en yüksek)',
+                clearSearchBtn: 'Temizle',
+                exportBtn: 'Excel\'i Dışa Aktar'
+            },
+            fa: {
+                appTitle: 'مشتل احمد سیلاوی',
+                appSubtitle: 'سیستم مدیریت انبار',
+                pageTitle: 'افزودن و مدیریت محصولات',
+                navAll: '📋 تمام محصولات',
+                navPlants: '🪴 گیاهان',
+                navMedicine: '💊 داروها',
+                navSoil: '🛠️ خاک و کود',
+                navFood: '🌿 مواد غذایی',
+                navOther: '📦 بخش‌های دیگر',
+                productNameLabel: 'نام محصول / گیاه:',
+                productNamePlaceholder: 'نام محصول، گیاه یا مورد...',
+                categoryLabel: 'بخش (دسته‌بندی):',
+                categoryPlant: '🪴 بخش گیاهان',
+                categoryMedicine: '💊 بخش داروها',
+                categorySoil: '🛠️ بخش خاک و کود',
+                categoryFood: '🌿 بخش مواد غذایی',
+                categoryOther: '📦 بخش دیگر',
+                priceLabel: 'قیمت محصول (دلار):',
+                pricePlaceholder: 'مثال: 5000',
+                stockInLabel: 'مقدار واردشده به انبار:',
+                stockOutLabel: 'مقدار خارج‌شده / استفاده‌شده:',
+                totalLabel: 'کل مقدار (خودکار):',
+                unitPieces: 'عدد',
+                notesLabel: 'یادداشت‌های مربوط به محصول:',
+                notesPlaceholder: 'دستورالعمل استفاده یا اطلاعات خاص...',
+                saveButton: '+ افزودن محصول',
+                cancelEditBtn: 'انصراف از ویرایش',
+                imageLabel: 'تصویر محصول:',
+                imageColumn: 'تصویر',
+                removeImageBtn: 'حذف تصویر',
+                tableAll: 'لیست تمام محصولات',
+                tableProductName: 'نام محصول',
+                tableCategory: 'دسته‌بندی',
+                tablePrice: 'قیمت',
+                tableStockIn: 'در انبار',
+                tableStockOut: 'خارج از انبار',
+                tableTotal: 'کل',
+                tableNotes: 'یادداشت‌ها',
+                tableAction: 'عملیات',
+                emptyMessage: 'هنوز هیچ محصولی در این بخش ثبت نشده است.',
+                confirmDelete: 'آیا از حذف این محصول اطمینان دارید؟',
+                missingName: 'لطفاً نام محصول را وارد کنید',
+                tableSection: 'محصولات این بخش:',
+                deleteBtn: 'حذف',
+                searchPlaceholder: 'جستجو بر اساس نام یا دسته‌بندی...',
+                sortLabel: 'مرتب‌سازی:',
+                sortDefault: 'ترتیب پیش‌فرض',
+                sortNameAsc: 'نام (A-Z)',
+                sortPriceAsc: 'قیمت (کم به زیاد)',
+                sortPriceDesc: 'قیمت (زیاد به کم)',
+                sortStockDesc: 'کل مقدار (بیشترین)',
+                clearSearchBtn: 'پاک‌کردن',
+                exportBtn: 'صادرات Excel'
+            },
+            it: {
+                appTitle: 'Mashtal Ahmad Siwaily',
+                appSubtitle: 'Sistema di Gestione del Magazzino',
+                pageTitle: 'Aggiungi e Gestisci Prodotti',
+                navAll: '📋 Tutti i Prodotti',
+                navPlants: '🪴 Piante',
+                navMedicine: '💊 Medicinali',
+                navSoil: '🛠️ Terreno e Fertilizzante',
+                navFood: '🌿 Alimenti',
+                navOther: '📦 Altre Sezioni',
+                productNameLabel: 'Nome Prodotto / Pianta:',
+                productNamePlaceholder: 'Nome prodotto, pianta o articolo...',
+                categoryLabel: 'Sezione (Categoria):',
+                categoryPlant: '🪴 Sezione Piante',
+                categoryMedicine: '💊 Sezione Medicinali',
+                categorySoil: '🛠️ Sezione Terreno e Fertilizzante',
+                categoryFood: '🌿 Sezione Alimenti',
+                categoryOther: '📦 Altra Sezione',
+                priceLabel: 'Prezzo Prodotto (USD):',
+                pricePlaceholder: 'Esempio: 5000',
+                stockInLabel: 'Quantità in Magazzino:',
+                stockOutLabel: 'Quantità Fuori Magazzino / Utilizzata:',
+                totalLabel: 'Quantità Totale (Automatica):',
+                unitPieces: 'pezzi',
+                notesLabel: 'Note sul Prodotto:',
+                notesPlaceholder: 'Istruzioni di utilizzo o informazioni speciali...',
+                saveButton: '+ Aggiungi Prodotto',
+                cancelEditBtn: 'Annulla Modifica',
+                imageLabel: 'Immagine Prodotto:',
+                imageColumn: 'Immagine',
+                removeImageBtn: 'Rimuovi Immagine',
+                tableAll: 'Elenco di Tutti i Prodotti',
+                tableProductName: 'Nome Prodotto',
+                tableCategory: 'Categoria',
+                tablePrice: 'Prezzo',
+                tableStockIn: 'In Magazzino',
+                tableStockOut: 'Fuori Magazzino',
+                tableTotal: 'Totale',
+                tableNotes: 'Note',
+                tableAction: 'Azione',
+                emptyMessage: 'Nessun prodotto è stato registrato in questa sezione.',
+                confirmDelete: 'Sei sicuro di voler eliminare questo prodotto?',
+                missingName: 'Inserisci il nome del prodotto',
+                tableSection: 'Prodotti nella sezione:',
+                deleteBtn: 'Elimina',
+                searchPlaceholder: 'Cerca per nome o categoria...',
+                sortLabel: 'Ordina:',
+                sortDefault: 'Ordine predefinito',
+                sortNameAsc: 'Nome (A-Z)',
+                sortPriceAsc: 'Prezzo (basso-alto)',
+                sortPriceDesc: 'Prezzo (alto-basso)',
+                sortStockDesc: 'Quantità totale (più alto)',
+                clearSearchBtn: 'Cancella',
+                exportBtn: 'Esporta Excel'
+            }
+        };
+
+        const categoryLabels = {
+            'هەمووی': { ku: 'هەمووی', en: 'All', ar: 'الكل' },
+            'ڕووەک': { ku: 'ڕووەک', en: 'Plants', ar: 'النباتات' },
+            'دەرامان': { ku: 'دەرامان', en: 'Medicine', ar: 'الأدوية' },
+            'خاکەناز و مزەخە': { ku: 'خاکەناز و مزەخە', en: 'Soil & Fertilizer', ar: 'التربة والأسمدة' },
+            'مادەی خۆراکی': { ku: 'مادەی خۆراکی', en: 'Food Items', ar: 'المواد الغذائية' },
+            'بەشی تر': { ku: 'بەشی تر', en: 'Other', ar: 'أخرى' }
+        };
+
+        try {
+            const saved = localStorage.getItem('mashtal_products_list');
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                if (Array.isArray(parsed)) {
+                    products = parsed;
+                }
+            }
+        } catch (e) {
+            console.log('Storage access restricted, using memory mode');
+        }
+
+        const stockInInput = document.getElementById('p_stock_in');
+        const stockOutInput = document.getElementById('p_stock_out');
+        const totalDisplay = document.getElementById('total_display');
+        const form = document.getElementById('productForm');
+        const imageInput = document.getElementById('p_image');
+        const imagePreview = document.getElementById('imagePreview');
+        const imageThumbList = document.getElementById('imageThumbList');
+        const removeImageBtn = document.getElementById('removeImageBtn');
+        const submitProductBtn = document.getElementById('submitProductBtn');
+        const cancelEditBtn = document.getElementById('cancelEditBtn');
+        const searchInput = document.getElementById('searchInput');
+        const sortSelect = document.getElementById('sortSelect');
+        const clearSearchBtn = document.getElementById('clearSearchBtn');
+        const exportBtn = document.getElementById('exportBtn');
+        let selectedProductImages = [];
+        let editingProductId = null;
+
+        function getText(key) {
+            return translations[currentLanguage][key] || key;
+        }
+
+        function setFormMode(isEditing) {
+            if (isEditing) {
+                submitProductBtn.textContent = currentLanguage === 'en'
+                    ? 'Update Product'
+                    : currentLanguage === 'ar'
+                        ? 'تحديث المنتج'
+                        : 'نوێکردنەوەی کاڵا';
+                cancelEditBtn.style.display = 'inline-block';
+            } else {
+                submitProductBtn.textContent = getText('saveButton');
+                cancelEditBtn.style.display = 'none';
+            }
+        }
+
+        function renderImagePreview() {
+            if (selectedProductImages.length === 0) {
+                imagePreview.style.display = 'none';
+                imageThumbList.innerHTML = '';
+                return;
+            }
+
+            imagePreview.style.display = 'block';
+            imageThumbList.innerHTML = selectedProductImages.map((src, index) => `
+                <div class="image-thumb-item">
+                    <img src="${src}" alt="Product image ${index + 1}" />
+                    <button type="button" class="image-thumb-remove" data-index="${index}" aria-label="Remove image">×</button>
+                </div>
+            `).join('');
+
+            imageThumbList.querySelectorAll('.image-thumb-remove').forEach((btn) => {
+                btn.addEventListener('click', function () {
+                    const index = Number(this.dataset.index);
+                    selectedProductImages.splice(index, 1);
+                    renderImagePreview();
+                    imageInput.value = '';
+                });
+            });
+        }
+
+        function resetImagePreview() {
+            selectedProductImages = [];
+            imagePreview.style.display = 'none';
+            imageThumbList.innerHTML = '';
+            imageInput.value = '';
+        }
+
+        removeImageBtn.addEventListener('click', function () {
+            resetImagePreview();
+        });
+
+        imageInput.addEventListener('change', function () {
+            const files = Array.from(this.files || []);
+            if (files.length === 0) {
+                resetImagePreview();
+                return;
+            }
+
+            const invalidFile = files.find((file) => !file.type.startsWith('image/'));
+            if (invalidFile) {
+                alert('Please select image files only.');
+                resetImagePreview();
+                return;
+            }
+
+            const readers = files.map((file) => new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (event) => resolve(event.target.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            }));
+
+            Promise.all(readers)
+                .then((results) => {
+                    selectedProductImages = selectedProductImages.concat(results);
+                    renderImagePreview();
+                })
+                .catch(() => {
+                    alert('Error reading image files.');
+                    resetImagePreview();
+                });
+        });
+
+        function applyLanguage(lang) {
+            currentLanguage = lang;
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'en' ? 'ltr' : 'rtl';
+
+            if (lang === 'ar') {
+                document.documentElement.dir = 'rtl';
+            }
+
+            document.querySelectorAll('[data-i18n]').forEach((element) => {
+                const key = element.dataset.i18n;
+                if (translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+
+            document.querySelectorAll('[data-i18n-placeholder]').forEach((element) => {
+                const key = element.dataset.i18nPlaceholder;
+                if (translations[lang][key]) {
+                    element.placeholder = translations[lang][key];
+                }
+            });
+
+            document.querySelectorAll('[data-i18n-option]').forEach((option) => {
+                const key = option.dataset.i18nOption;
+                if (translations[lang][key]) {
+                    option.textContent = translations[lang][key];
+                }
+            });
+
+            document.querySelectorAll('.nav-btn').forEach((button) => {
+                const key = button.dataset.key;
+                if (translations[lang][key]) {
+                    button.innerHTML = translations[lang][key];
+                }
+            });
+
+            document.querySelectorAll('.lang-btn').forEach((button) => {
+                button.classList.toggle('active', button.dataset.lang === lang);
+            });
+
+            searchInput.placeholder = getText('searchPlaceholder');
+            const tableTitle = document.getElementById('tableTitle');
+            tableTitle.textContent = getTableTitle(currentFilter);
+            setFormMode(editingProductId !== null);
+            renderProducts();
+        }
+
+        function sortFilteredProducts(items) {
+            const sorted = [...items];
+
+            switch (sortMode) {
+                case 'nameAsc':
+                    sorted.sort((a, b) => (a.name || '').localeCompare(b.name || '', undefined, { sensitivity: 'base' }));
+                    break;
+                case 'priceAsc':
+                    sorted.sort((a, b) => Number(a.price || 0) - Number(b.price || 0));
+                    break;
+                case 'priceDesc':
+                    sorted.sort((a, b) => Number(b.price || 0) - Number(a.price || 0));
+                    break;
+                case 'stockDesc':
+                    sorted.sort((a, b) => (Number(b.stockIn || 0) + Number(b.stockOut || 0)) - (Number(a.stockIn || 0) + Number(a.stockOut || 0)));
+                    break;
+                default:
+                    break;
+            }
+
+            return sorted;
+        }
+
+        function getTableTitle(category) {
+            if (category === 'هەمووی') {
+                return getText('tableAll');
+            }
+            const label = categoryLabels[category] ? categoryLabels[category][currentLanguage] : category;
+            return getText('tableSection') + ' ' + label;
+        }
+
+        function calculateTotal() {
+            const inStore = parseInt(stockInInput.value) || 0;
+            const outStore = parseInt(stockOutInput.value) || 0;
+            totalDisplay.textContent = String(inStore + outStore);
+        }
+
+        stockInInput.addEventListener('input', calculateTotal);
+        stockOutInput.addEventListener('input', calculateTotal);
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const name = document.getElementById('p_name').value.trim();
+            if (!name) {
+                alert(getText('missingName'));
+                return;
+            }
+
+            const productData = {
+                name,
+                category: document.getElementById('p_category').value,
+                price: parseFloat(document.getElementById('p_price').value) || 0,
+                stockIn: parseInt(stockInInput.value) || 0,
+                stockOut: parseInt(stockOutInput.value) || 0,
+                notes: document.getElementById('p_notes').value.trim(),
+                images: selectedProductImages.length > 0 ? [...selectedProductImages] : []
+            };
+
+            if (editingProductId !== null) {
+                products = products.map((product) => product.id === editingProductId ? { ...product, ...productData } : product);
+            } else {
+                products.push({ id: Date.now(), ...productData });
+            }
+
+            saveData();
+            form.reset();
+            resetImagePreview();
+            editingProductId = null;
+            setFormMode(false);
+            calculateTotal();
+            renderProducts();
+        });
+
+        function saveData() {
+            try {
+                localStorage.setItem('mashtal_products_list', JSON.stringify(products));
+            } catch (e) {
+                console.log('Could not save to localStorage');
+            }
+        }
+
+        function deleteProduct(id) {
+            if (confirm(getText('confirmDelete'))) {
+                products = products.filter((p) => p.id !== id);
+                saveData();
+                renderProducts();
+            }
+        }
+
+        function editProduct(id) {
+            const product = products.find((p) => p.id === id);
+            if (!product) return;
+
+            editingProductId = id;
+            document.getElementById('p_name').value = product.name || '';
+            document.getElementById('p_category').value = product.category || 'ڕووەک';
+            document.getElementById('p_price').value = product.price || 0;
+            stockInInput.value = product.stockIn || 0;
+            stockOutInput.value = product.stockOut || 0;
+            document.getElementById('p_notes').value = product.notes || '';
+
+            selectedProductImages = Array.isArray(product.images) ? [...product.images] : [];
+            renderImagePreview();
+            calculateTotal();
+            setFormMode(true);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        cancelEditBtn.addEventListener('click', function () {
+            editingProductId = null;
+            form.reset();
+            resetImagePreview();
+            calculateTotal();
+            setFormMode(false);
+        });
+
+        function filterCategory(cat, btn) {
+            currentFilter = cat;
+            document.querySelectorAll('.nav-btn').forEach((b) => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const tableTitle = document.getElementById('tableTitle');
+            tableTitle.textContent = getTableTitle(cat);
+            renderProducts();
+        }
+
+        function getVisibleProducts() {
+            const searchTerm = searchInput.value.trim().toLowerCase();
+            let filtered = currentFilter === 'هەمووی'
+                ? products
+                : products.filter((p) => p.category === currentFilter);
+
+            if (searchTerm) {
+                filtered = filtered.filter((p) => {
+                    const name = (p.name || '').toLowerCase();
+                    const category = (p.category || '').toLowerCase();
+                    return name.includes(searchTerm) || category.includes(searchTerm);
+                });
+            }
+
+            return sortFilteredProducts(filtered);
+        }
+
+        function renderProducts() {
+            const tbody = document.getElementById('productTableBody');
+            tbody.innerHTML = '';
+
+            const filtered = getVisibleProducts();
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="10" class="empty-msg">' + getText('emptyMessage') + '</td></tr>';
+                return;
+            }
+
+            filtered.forEach((item, index) => {
+                const totalStock = item.stockIn + item.stockOut;
+                const tr = document.createElement('tr');
+                const images = Array.isArray(item.images) ? item.images : (item.image ? [item.image] : []);
+                const productImage = images.length > 0
+                    ? `<div class="image-thumb-list">${images.slice(0, 3).map((src) => `<div class="image-thumb-item"><img src="${src}" alt="${item.name}" /></div>`).join('')}</div>`
+                    : '<span style="color:#94a3b8;">-</span>';
+
+                tr.innerHTML = `
+                    <td>#${index + 1}</td>
+                    <td><strong>${item.name}</strong></td>
+                    <td>${productImage}</td>
+                    <td><span class="badge">${item.category}</span></td>
+                    <td>${Number(item.price).toLocaleString()} ${currentLanguage === 'en' ? 'USD' : 'د.ع'}</td>
+                    <td><span class="stock-in">${item.stockIn}</span></td>
+                    <td><span class="stock-out">${item.stockOut}</span></td>
+                    <td><strong>${totalStock}</strong></td>
+                    <td>${item.notes || '-'}</td>
+                    <td>
+                        <button class="btn-delete" onclick="deleteProduct(${item.id})">${getText('deleteBtn')}</button>
+                        <button class="edit-btn" onclick="editProduct(${item.id})">${currentLanguage === 'en' ? 'Edit' : currentLanguage === 'ar' ? 'تعديل' : 'دەسکاریکردن'}</button>
+                    </td>
+                `;
+
+                tbody.appendChild(tr);
+            });
+        }
+
+        document.querySelectorAll('.lang-btn').forEach((button) => {
+            button.addEventListener('click', function () {
+                applyLanguage(button.dataset.lang);
+            });
+        });
+
+        searchInput.addEventListener('input', renderProducts);
+
+        sortSelect.addEventListener('change', function () {
+            sortMode = sortSelect.value;
+            renderProducts();
+        });
+
+        clearSearchBtn.addEventListener('click', function () {
+            searchInput.value = '';
+            renderProducts();
+        });
+
+        exportBtn.addEventListener('click', function () {
+            const rows = getVisibleProducts();
+            const headers = ['ID', 'Name', 'Category', 'Price', 'Stock In', 'Stock Out', 'Total', 'Notes'];
+            const csvRows = [headers.join(',')];
+
+            rows.forEach((item) => {
+                const line = [
+                    item.id,
+                    item.name || '',
+                    item.category || '',
+                    Number(item.price || 0),
+                    Number(item.stockIn || 0),
+                    Number(item.stockOut || 0),
+                    Number((item.stockIn || 0) + (item.stockOut || 0)),
+                    item.notes || ''
+                ].map((value) => `"${String(value).replace(/"/g, '""')}"`).join(',');
+
+                csvRows.push(line);
+            });
+
+            const csvContent = '\uFEFF' + csvRows.join('\n');
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            const fileName = currentFilter === 'هەمووی' ? 'products_export' : currentFilter.replace(/\s+/g, '_');
+            link.download = `${fileName}.csv`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        });
+
+        calculateTotal();
+        renderProducts();
+        setFormMode(false);
+        applyLanguage('ku');
+    </script>
+</body>
+</html>

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ckb">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سیستەمی مەشتەلی ئەحمەد سیوەیلی</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700&display=swap');
+
+        * { box-sizing: border-box; font-family: 'Vazirmatn', sans-serif; margin: 0; padding: 0; }
+        body { background-color: #f1f5f9; color: #1e293b; direction: rtl; display: flex; min-height: 100vh; }
+
+        /* Sidebar */
+        .sidebar { width: 260px; background: #0f172a; color: white; padding: 20px 15px; position: fixed; height: 100vh; right: 0; top: 0; box-shadow: -2px 0 10px rgba(0,0,0,0.1); }
+        .sidebar h3 { font-size: 18px; margin-bottom: 5px; color: #4ade80; text-align: center; }
+        .user-info { font-size: 12px; color: #94a3b8; text-align: center; margin-bottom: 25px; border-bottom: 1px solid #334155; padding-bottom: 12px; }
+        .sidebar button { display: block; width: 100%; text-align: right; background: none; border: none; color: #cbd5e1; padding: 12px 15px; font-size: 14px; font-weight: 600; border-radius: 8px; margin-bottom: 8px; cursor: pointer; transition: 0.2s; }
+        .sidebar button:hover, .sidebar button.active { background: #16a34a; color: white; }
+
+        /* Main Content */
+        .content { margin-right: 260px; padding: 30px; width: calc(100% - 260px); }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+
+        /* Form Styling */
+        .card-form { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); margin-bottom: 30px; }
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 14px; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; outline: none; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: #16a34a; }
+        .form-row { display: flex; gap: 15px; }
+        .form-row .col { flex: 1; }
+        .highlight-box { background: #f0fdf4; border: 1px solid #bbf7d0; padding: 12px 18px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
+        .total-badge { font-size: 22px; font-weight: bold; color: #16a34a; }
+
+        .btn { padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; border: none; font-size: 14px; transition: 0.2s; }
+        .btn-primary { background: #16a34a; color: white; }
+        .btn-primary:hover { background: #15803d; }
+        .btn-delete { background: #ef4444; color: white; padding: 5px 10px; border-radius: 6px; font-size: 12px; cursor: pointer; border: none; }
+
+        /* Table Styling */
+        .table-container { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        .data-table { width: 100%; border-collapse: collapse; text-align: center; }
+        .data-table th, .data-table td { padding: 14px; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
+        .data-table th { background: #1e293b; color: white; font-weight: 600; }
+        .badge { background: #e2e8f0; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: bold; }
+        .stock-in { color: #16a34a; font-weight: bold; }
+        .stock-out { color: #dc2626; font-weight: bold; }
+        .empty-msg { padding: 20px; color: #64748b; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h3>مەشتەلی ئەحمەد سیوەیلی</h3>
+        <div class="user-info">سیستەمی بەڕێوەبردنی کۆگا</div>
+<button class="nav-btn active" onclick="filterCategory('هەمووی', this)">📋 کۆی کاڵاکان</button>
+        <button class="nav-btn" onclick="filterCategory('ڕووەک', this)">🪴 بەشی ڕووەکەکان</button>
+        <button class="nav-btn" onclick="filterCategory('دەرامان', this)">💊 بەشی دەرمان</button>
+        <button class="nav-btn" onclick="filterCategory('خاکەناز و مزەخە', this)">🛠️ خاکەناز و مزەخە</button>
+        <button class="nav-btn" onclick="filterCategory('مادەی خۆراکی', this)">🌿 مادە خۆراکییەکان</button>
+        <button class="nav-btn" onclick="filterCategory('بەشی تر', this)">📦 بەشەکانی تر</button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <div class="header">
+            <h2>تۆمارکردن و بەڕێوەبردنی کاڵاکان</h2>
+        </div>
+
+        <!-- Add Product Form -->
+        <form class="card-form" id="productForm">
+            <div class="form-group">
+                <label>ناوی کاڵا / ڕووەک:</label>
+                <input type="text" id="p_name" placeholder="ناوی کاڵا، ڕووەک، یان پەین..." required>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col">
+                    <label>بەش (پۆلێن):</label>
+                    <select id="p_category" required>
+                        <option value="ڕووەک">🪴 بەشی ڕووەکەکان</option>
+                        <option value="دەرامان">💊 بەشی دەرمان</option>
+                        <option value="خاکەناز و مزەخە">🛠️ بەشی خاکەناز و مزەخە</option>
+                        <option value="مادەی خۆراکی">🌿 بەشی مادە خۆراکییەکان</option>
+                        <option value="بەشی تر">📦 بەشی تر</option>
+                    </select>
+                </div>
+                <div class="form-group col">
+                    <label>نرخی کاڵا (د.ع):</label>
+                    <input type="number" id="p_price" placeholder="مثلاً: 5000" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col">
+                    <label>عەدەدی لە کۆگاداهەیە (Stock In):</label>
+                    <input type="number" id="p_stock_in" value="0" required>
+                </div>
+                <div class="form-group col">
+                    <label>عەدەدی لە کۆگادانییە / دەستبەجێ (Stock Out):</label>
+                    <input type="number" id="p_stock_out" value="0" required>
+                </div>
+            </div>
+
+            <div class="form-group highlight-box">
+                <label>کۆی گشتی عەدەد (ئۆتۆماتیک):</label>
+                <div><span id="total_display" class="total-badge">0</span> دانە</div>
+            </div>
+
+            <div class="form-group">
+                <label>تێبینی لەسەر کاڵا:</label>
+                <textarea id="p_notes" rows="2" placeholder="ڕێنمایی بەکارهێنان یان زانیاری تایبەت..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">+ تۆمارکردنی کاڵا</button>
+        </form>
+
+        <!-- Product Table -->
+        <h3 id="tableTitle" style="margin-bottom: 15px;">لیستی کۆی کاڵاکان</h3>
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>ناوی کاڵا</th>
+                        <th>بەش</th>
+                        <th>نرخ</th>
+                        <th>لە کۆگادایە</th>
+                        <th>لە کۆگادانییە</th>
+                        <th>کۆی گشتی</th>
+                        <th>تێبینی</th>
+                        <th>کردار</th>
+                    </tr>
+                </thead>
+                <tbody id="productTableBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- JavaScript Script -->
+    <script>
+        let products = [];
+        let currentFilter = 'هەمووی';
+// Load data safely
+        try {
+            const saved = localStorage.getItem('mashtal_products_list');
+            if (saved) {
+                products = JSON.parse(saved);
+            }
+        } catch (e) {
+            console.log("Storage access restricted, using memory mode");
+        }
+
+        const stockInInput = document.getElementById('p_stock_in');
+        const stockOutInput = document.getElementById('p_stock_out');
+        const totalDisplay = document.getElementById('total_display');
+        const form = document.getElementById('productForm');
+
+        function calculateTotal() {
+            let inStore = parseInt(stockInInput.value) || 0;
+            let outStore = parseInt(stockOutInput.value) || 0;
+            totalDisplay.innerText = inStore + outStore;
+        }
+
+        stockInInput.addEventListener('input', calculateTotal);
+        stockOutInput.addEventListener('input', calculateTotal);
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const newProduct = {
+                id: Date.now(),
+                name: document.getElementById('p_name').value.trim(),
+                category: document.getElementById('p_category').value,
+                price: parseFloat(document.getElementById('p_price').value) || 0,
+                stockIn: parseInt(stockInInput.value) || 0,
+                stockOut: parseInt(stockOutInput.value) || 0,
+                notes: document.getElementById('p_notes').value.trim()
+            };
+
+            products.push(newProduct);
+            saveData();
+            
+            form.reset();
+            calculateTotal();
+            renderProducts();
+        });
+
+        function saveData() {
+            try {
+                localStorage.setItem('mashtal_products_list', JSON.stringify(products));
+            } catch (e) {
+                console.log("Could not save to localStorage");
+            }
+        }
+
+        function deleteProduct(id) {
+            if(confirm('دڵنیایت لە سڕینەوەی ئەم کاڵایە؟')) {
+                products = products.filter(p => p.id !== id);
+                saveData();
+                renderProducts();
+            }
+        }
+
+        function filterCategory(cat, btn) {
+            currentFilter = cat;
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('tableTitle').innerText = cat === 'هەمووی' ? 'لیستی کۆی کاڵاکان' : `لیستی کاڵاکانی بەشی: ${cat}`;
+            renderProducts();
+        }
+
+        function renderProducts() {
+            const tbody = document.getElementById('productTableBody');
+            tbody.innerHTML = '';
+
+            let filtered = currentFilter === 'هەمووی' 
+                ? products 
+                : products.filter(p => p.category === currentFilter);
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = <tr><td colspan="9" class="empty-msg">هیچ کاڵایەک تائێستا لەم بەشەدا تۆمار نەکراوە.</td></tr>;
+                return;
+            }
+
+            filtered.forEach((item, index) => {
+                let totalStock = item.stockIn + item.stockOut;
+                let tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>#${index + 1}</td>
+                    <td><strong>${item.name}</strong></td>
+                    <td><span class="badge">${item.category}</span></td>
+                    <td>${item.price.toLocaleString()} د.ع</td>
+                    <td><span class="stock-in">${item.stockIn}</span></td>
+                    <td><span class="stock-out">${item.stockOut}</span></td>
+                    <td><strong>${totalStock}</strong></td>
+                    <td>${item.notes || '-'}</td>
+                    <td>
+                        <button class="btn-delete" onclick="deleteProduct(${item.id})">سڕینەوە</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+// Initial Load
+        renderProducts();
+    </script>
+</body>
+</html>

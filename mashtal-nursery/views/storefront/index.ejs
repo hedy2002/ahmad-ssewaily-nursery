@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/public/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav">
+        <div class="brand">🌿 Mashtal Nursery</div>
+        <nav>
+          <a href="/">Home</a>
+          <a href="/shop">Shop</a>
+          <a href="/#about">About</a>
+          <a href="/#contact">Contact</a>
+          <a href="/cart" class="cart-link">Cart (<span id="cartCount"><%= (cart || []).reduce((sum, item) => sum + item.qty, 0) %></span>)</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container hero-inner">
+          <div>
+            <span class="eyebrow">Fresh gardening for every home</span>
+            <h1>Beautiful plants for your greener life</h1>
+            <p>Discover indoor plants, flowers, herbs, and outdoor greenery for your garden and home.</p>
+            <div class="hero-actions">
+              <a class="btn primary" href="/shop">Browse Plants</a>
+              <a class="btn secondary" href="/#about">Learn More</a>
+            </div>
+          </div>
+          <div class="hero-visual">
+            <img src="/public/images/hero-plant.jpg" alt="Nursery hero plant" />
+          </div>
+        </div>
+      </section>
+
+      <section class="featured section">
+        <div class="container">
+          <div class="section-head">
+            <h2>Popular Plants</h2>
+          </div>
+          <div class="product-grid">
+            <% products.filter(product => product.featured).slice(0, 4).forEach(product => { %>
+              <article class="product-card">
+                <img src="<%= product.image %>" alt="<%= product.title %>" />
+                <div class="product-body">
+                  <span class="tag"><%= product.category %></span>
+                  <h3><%= product.title %></h3>
+                  <p><%= product.description %></p>
+                  <div class="meta">
+                    <strong>$<%= product.price %></strong>
+                    <span><%= product.stock %> in stock</span>
+                  </div>
+                  <div class="card-actions">
+                    <a class="btn small" href="/product/<%= product.id %>">View</a>
+                    <button class="btn small primary add-to-cart" data-id="<%= product.id %>">Add to Cart</button>
+                  </div>
+                </div>
+              </article>
+            <% }) %>
+          </div>
+        </div>
+      </section>
+
+      <section id="about" class="about section alt-bg">
+        <div class="container two-col">
+          <div>
+            <span class="eyebrow">Why choose us</span>
+            <h2>Healthy plants and expert advice</h2>
+            <p>At Mashtal Nursery, we help customers create beautiful, sustainable green spaces with quality plants and trusted gardening assistance.</p>
+            <ul class="check-list">
+              <li>Fresh plant stock from trusted growers</li>
+              <li>Guidance for indoor and outdoor gardening</li>
+              <li>Fast delivery and easy ordering</li>
+            </ul>
+          </div>
+          <div class="feature-boxes">
+            <div class="feature-box">🌱 Indoor Plants</div>
+            <div class="feature-box">🌼 Flowers</div>
+            <div class="feature-box">🪴 Outdoor Garden</div>
+            <div class="feature-box">🌿 Herbs</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="contact section">
+        <div class="container contact-wrap">
+          <div>
+            <span class="eyebrow">Get in touch</span>
+            <h2>Ask about a plant or custom order</h2>
+          </div>
+          <form method="POST" action="/contact" class="contact-form">
+            <input type="text" name="name" placeholder="Your name" required />
+            <input type="email" name="email" placeholder="Email" required />
+            <input type="tel" name="phone" placeholder="Phone" required />
+            <textarea name="message" rows="4" placeholder="Your message" required></textarea>
+            <button class="btn primary" type="submit">Send Message</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>© 2026 Mashtal Nursery</p>
+        <a href="/admin/login">Admin Login</a>
+      </div>
+    </footer>
+
+    <script src="/public/script.js"></script>
+  </body>
+</html>

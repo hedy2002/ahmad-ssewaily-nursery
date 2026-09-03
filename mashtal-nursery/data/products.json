@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "title": "Snake Plant",
+    "category": "Indoor Plants",
+    "price": 28,
+    "description": "Easy-care plant for homes and offices, perfect for low-light spaces.",
+    "stock": 12,
+    "image": "/images/sample-plant-1.jpg",
+    "featured": true
+  },
+  {
+    "id": 2,
+    "title": "Monstera Deliciosa",
+    "category": "Indoor Plants",
+    "price": 42,
+    "description": "Large tropical foliage plant with natural split leaves.",
+    "stock": 8,
+    "image": "/images/sample-plant-2.jpg",
+    "featured": true
+  },
+  {
+    "id": 3,
+    "title": "Lavender Herb",
+    "category": "Herbs",
+    "price": 16,
+    "description": "Fragrant herb ideal for balconies and windowsills.",
+    "stock": 20,
+    "image": "/images/sample-plant-3.jpg",
+    "featured": false
+  },
+  {
+    "id": 4,
+    "title": "Rosemary Bush",
+    "category": "Herbs",
+    "price": 18,
+    "description": "A kitchen favorite with fresh aromatic leaves and easy growth.",
+    "stock": 15,
+    "image": "/images/sample-plant-4.jpg",
+    "featured": false
+  },
+  {
+    "id": 5,
+    "title": "Peace Lily",
+    "category": "Flowering Plants",
+    "price": 35,
+    "description": "Elegant foliage and white flowers that brighten indoor spaces.",
+    "stock": 7,
+    "image": "/images/sample-plant-5.jpg",
+    "featured": true
+  },
+  {
+    "id": 6,
+    "title": "Garden Palm",
+    "category": "Outdoor Plants",
+    "price": 52,
+    "description": "A tall, statement-making plant that suits patios and gardens.",
+    "stock": 5,
+    "image": "/images/sample-plant-6.jpg",
+    "featured": false
+  }
+]

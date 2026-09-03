@@ -1,0 +1,39 @@
+[
+  {
+    "id": "order-1788442223736",
+    "customer": {
+      "name": "khgii",
+      "phone": "7857858765578",
+      "address": ",b,bk,",
+      "notes": "",
+      "latitude": "35.50053692423292",
+      "longitude": "45.48391478591283"
+    },
+    "items": [
+      {
+        "id": "plant-monstera",
+        "title": "Monstera Deliciosa",
+        "price": 230000,
+        "quantity": 2
+      },
+      {
+        "id": "plant-peace-lily",
+        "title": "Peace Lily",
+        "price": 185000,
+        "quantity": 1
+      },
+      {
+        "id": "plant-zz",
+        "title": "ZZ Plant",
+        "price": 210000,
+        "quantity": 1
+      }
+    ],
+    "subtotal": 855000,
+    "discount": 0,
+    "promoCode": null,
+    "total": 855000,
+    "status": "Pending",
+    "createdAt": "2026-09-03T13:30:23.736Z"
+  }
+]

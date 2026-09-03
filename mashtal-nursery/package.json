@@ -1,0 +1,24 @@
+{
+  "name": "mashtal-nursery",
+  "version": "1.0.0",
+  "description": "Mashtal plant nursery web app with admin dashboard and storefront",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "nursery",
+    "garden",
+    "express",
+    "ejs"
+  ],
+  "author": "Mashtal",
+  "license": "MIT",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "multer": "^1.4.5-lts.1"
+  }
+}
