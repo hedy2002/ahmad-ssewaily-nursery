@@ -21,6 +21,15 @@ function updateCartBadge() {
   if (badge) badge.textContent = getCart().reduce((sum, item) => sum + item.quantity, 0);
 }
 
+function initContactWidget() {
+  if (document.getElementById('contactWidget')) return;
+  const widget = document.createElement('aside');
+  widget.id = 'contactWidget';
+  widget.className = 'contact-widget';
+  widget.innerHTML = `<strong>Chnar Garden</strong><a href="tel:+9647711562232">☎ 07711562232</a><div class="contact-actions"><a href="tel:+9647711562232" aria-label="Call Chnar Garden">Call</a><a href="https://wa.me/9647711562232" target="_blank" rel="noreferrer" aria-label="WhatsApp Chnar Garden">WhatsApp</a><a href="viber://chat?number=%2B9647711562232" aria-label="Viber Chnar Garden">Viber</a></div><div class="social-actions"><a href="https://www.facebook.com/ChnarGarden" target="_blank" rel="noreferrer">Facebook</a><a href="https://www.instagram.com/chnargarden/" target="_blank" rel="noreferrer">Instagram</a></div>`;
+  document.body.appendChild(widget);
+}
+
 function careBadges(product) {
   return `<div class="care-badges"><span title="Sunlight">☀️ ${escapeHtml(product.sunlight || 'Indirect')}</span><span title="Watering">💧 ${escapeHtml(product.watering || 'Weekly')}</span><span title="Temperature">🌡️ ${escapeHtml(product.temperature || '18-30°C')}</span></div>`;
 }
@@ -59,6 +68,19 @@ function setupFilters() {
     document.getElementById(id)?.addEventListener('input', loadProducts);
     document.getElementById(id)?.addEventListener('change', loadProducts);
   });
+}
+
+function setupCategoryButtons() {
+  document.querySelectorAll('[data-category]').forEach((button) => button.addEventListener('click', () => {
+    const category = button.dataset.category;
+    window.location.href = `/shop.html?category=${encodeURIComponent(category)}`;
+  }));
+  const category = new URLSearchParams(window.location.search).get('category');
+  const filter = document.getElementById('categoryFilter');
+  if (category && filter) {
+    filter.value = category;
+    loadProducts();
+  }
 }
 
 async function loadProductDetails() {
@@ -201,4 +223,4 @@ function initAdminProductForm() { const form = document.getElementById('productF
 
 function initTheme() { const button = document.createElement('button'); button.className = 'theme-toggle'; button.type = 'button'; button.title = 'Toggle dark mode'; button.textContent = localStorage.getItem('theme') === 'dark' ? '☀️' : '🌙'; if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode'); button.addEventListener('click', () => { const dark = document.body.classList.toggle('dark-mode'); localStorage.setItem('theme', dark ? 'dark' : 'light'); button.textContent = dark ? '☀️' : '🌙'; }); document.body.appendChild(button); }
 
-document.addEventListener('DOMContentLoaded', () => { updateCartBadge(); setupFilters(); loadProducts(); loadProductDetails(); initCart(); initCheckout(); initSuccess(); initAdmin(); initAdminProductForm(); initTheme(); document.getElementById('adminLoginForm')?.addEventListener('submit', async (event) => { event.preventDefault(); const response = await fetch('/admin/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(Object.fromEntries(new FormData(event.target))) }); const result = await response.json(); if (response.ok) location.href = result.redirect; else showToast(result.message); }); });
+document.addEventListener('DOMContentLoaded', () => { updateCartBadge(); initContactWidget(); setupFilters(); setupCategoryButtons(); loadProducts(); loadProductDetails(); initCart(); initCheckout(); initSuccess(); initAdmin(); initAdminProductForm(); initTheme(); document.getElementById('adminLoginForm')?.addEventListener('submit', async (event) => { event.preventDefault(); const response = await fetch('/admin/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(Object.fromEntries(new FormData(event.target))) }); const result = await response.json(); if (response.ok) location.href = result.redirect; else showToast(result.message); }); });

@@ -1,0 +1,9 @@
+{
+  "outputDirectory": "public",
+  "rewrites": [
+    { "source": "/admin/login", "destination": "/admin-login.html" },
+    { "source": "/admin/dashboard", "destination": "/admin-dashboard.html" },
+    { "source": "/products-manager", "destination": "/index.htmml.html" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}

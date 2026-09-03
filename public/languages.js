@@ -13,7 +13,7 @@
 
   function applyLanguage(language) {
     const selected = translations[language] ? language : 'en';
-    const dictionary = translations[selected];
+    const dictionary = { ...translations[selected], ...extraTranslations[selected] };
     localStorage.setItem('mashtal-language', selected);
     document.documentElement.lang = selected;
     document.documentElement.dir = selected === 'en' || selected === 'it' || selected === 'tr' ? 'ltr' : 'rtl';
@@ -28,13 +28,16 @@
     document.querySelectorAll('.site-lang-btn').forEach((button) => {
       button.classList.toggle('active', button.dataset.lang === selected);
     });
+    document.querySelectorAll('.language-label').forEach((label) => { label.textContent = dictionary.language || 'Language'; });
+    const languageSelect = document.getElementById('siteLanguage');
+    if (languageSelect) languageSelect.setAttribute('aria-label', dictionary.language || 'Language');
     window.dispatchEvent(new CustomEvent('site-language-change', { detail: { language: selected } }));
   }
 
   const extraTranslations = {
-    en: { items: 'items', subtotal: 'Subtotal', delivery: 'Delivery', discount: 'Discount', free: 'Free', total: 'Total', emptyCart: 'Your cart is empty.', freeDelivery: 'Free delivery unlocked', addMore: 'Add', freeDeliveryMore: 'more for free delivery', clearCart: 'Clear all items', discountApplied: 'Discount applied.', invalidPromo: 'Invalid coupon.', orderNumber: 'Order', printInvoice: 'Print invoice', notifyManager: 'Send order to nursery' },
-    ku: { items: 'دانە', subtotal: 'کۆی لاوەکی', delivery: 'گەیاندن', discount: 'داشکاندن', free: 'بەخۆڕایی', total: 'کۆی گشتی', emptyCart: 'سەبەتەکەت بەتاڵە.', freeDelivery: 'گەیاندنی بەخۆڕایی چالاک کرا', addMore: 'زیاد بکە', freeDeliveryMore: 'بۆ گەیاندنی بەخۆڕایی', clearCart: 'سڕینەوەی هەموو کاڵاکان', discountApplied: 'داشکاندن جێبەجێ کرا.', invalidPromo: 'کۆدی داشکاندن دروست نییە.', orderNumber: 'داواکاری', printInvoice: 'چاپکردنی وەسڵ', notifyManager: 'ناردنی داواکاری بۆ مەشتەڵ' },
-    ar: { items: 'قطع', subtotal: 'المجموع الفرعي', delivery: 'التوصيل', discount: 'الخصم', free: 'مجاني', total: 'الإجمالي', emptyCart: 'سلة التسوق فارغة.', freeDelivery: 'تم فتح التوصيل المجاني', addMore: 'أضف', freeDeliveryMore: 'للتوصيل المجاني', clearCart: 'مسح جميع العناصر', discountApplied: 'تم تطبيق الخصم.', invalidPromo: 'القسيمة غير صالحة.', orderNumber: 'الطلب', printInvoice: 'طباعة الفاتورة', notifyManager: 'إرسال الطلب إلى المشتل' },
+    en: { items: 'items', subtotal: 'Subtotal', delivery: 'Delivery', discount: 'Discount', free: 'Free', total: 'Total', emptyCart: 'Your cart is empty.', freeDelivery: 'Free delivery unlocked', addMore: 'Add', freeDeliveryMore: 'more for free delivery', clearCart: 'Clear all items', discountApplied: 'Discount applied.', invalidPromo: 'Invalid coupon.', orderNumber: 'Order', printInvoice: 'Print invoice', notifyManager: 'Send order to nursery', heroEyebrow: 'Your Green Space Starts Here', heroTitle: 'Healthy plants for every home and garden.', heroDescription: 'From lush indoor greenery to outdoor fruit trees and premium soil essentials, Ahmad Siwaily Nursery brings beauty, freshness, and sustainable living to every corner of your space.', shopCollection: 'Shop Collection', shopByCategory: 'Shop by Category', categorySubtitle: 'Fresh plant care essentials', featuredProducts: 'Featured Products', featuredSubtitle: 'High-quality nursery essentials', indoorPlants: 'Indoor Plants', outdoorTrees: 'Outdoor Trees', seasonalFlowers: 'Seasonal Flowers', soilFeed: 'Soil & Feed', accessories: 'Accessories' },
+    ku: { items: 'دانە', subtotal: 'کۆی لاوەکی', delivery: 'گەیاندن', discount: 'داشکاندن', free: 'بەخۆڕایی', total: 'کۆی گشتی', emptyCart: 'سەبەتەکەت بەتاڵە.', freeDelivery: 'گەیاندنی بەخۆڕایی چالاک کرا', addMore: 'زیاد بکە', freeDeliveryMore: 'بۆ گەیاندنی بەخۆڕایی', clearCart: 'سڕینەوەی هەموو کاڵاکان', discountApplied: 'داشکاندن جێبەجێ کرا.', invalidPromo: 'کۆدی داشکاندن دروست نییە.', orderNumber: 'داواکاری', printInvoice: 'چاپکردنی وەسڵ', notifyManager: 'ناردنی داواکاری بۆ مەشتەڵ', heroEyebrow: 'شوێنی سەوزی تۆ لێرە دەست پێدەکات', heroTitle: 'ڕووەکی تەندروست بۆ هەر ماڵ و باخچەیەک.', heroDescription: 'مەشتەلی ئەحمەد سوەیلی جوانی و ژیانی سەوز بۆ شوێنەکەت دەهێنێت.', shopCollection: 'بینینی کۆمەڵەکە', shopByCategory: 'کڕین بەپۆل', categorySubtitle: 'پێداویستییەکانی چاودێری ڕووەک', featuredProducts: 'کاڵا تایبەتەکان', featuredSubtitle: 'کاڵاکانی کوالێتی بەرز', indoorPlants: 'ڕووەکی ناوماڵ', outdoorTrees: 'دارەکانی دەرەوە', seasonalFlowers: 'گوڵە وەرزییەکان', soilFeed: 'خاک و خواردن', accessories: 'ئامراز و پێداویستی' },
+    ar: { items: 'قطع', subtotal: 'المجموع الفرعي', delivery: 'التوصيل', discount: 'الخصم', free: 'مجاني', total: 'الإجمالي', emptyCart: 'سلة التسوق فارغة.', freeDelivery: 'تم فتح التوصيل المجاني', addMore: 'أضف', freeDeliveryMore: 'للتوصيل المجاني', clearCart: 'مسح جميع العناصر', discountApplied: 'تم تطبيق الخصم.', invalidPromo: 'القسيمة غير صالحة.', orderNumber: 'الطلب', printInvoice: 'طباعة الفاتورة', notifyManager: 'إرسال الطلب إلى المشتل', heroEyebrow: 'مساحتك الخضراء تبدأ هنا', heroTitle: 'نباتات صحية لكل منزل وحديقة.', heroDescription: 'من النباتات المنزلية إلى الأشجار الخارجية، توفر مشتل أحمد سويلي جمالاً وحياة خضراء لمساحتك.', shopCollection: 'تصفح المجموعة', shopByCategory: 'تسوق حسب الفئة', categorySubtitle: 'أساسيات العناية بالنباتات', featuredProducts: 'منتجات مميزة', featuredSubtitle: 'مستلزمات مشتل عالية الجودة', indoorPlants: 'نباتات داخلية', outdoorTrees: 'أشجار خارجية', seasonalFlowers: 'زهور موسمية', soilFeed: 'تربة وسماد', accessories: 'إكسسوارات' },
     tr: { items: 'ürün', subtotal: 'Ara toplam', delivery: 'Teslimat', discount: 'İndirim', free: 'Ücretsiz', total: 'Toplam', emptyCart: 'Sepetiniz boş.', freeDelivery: 'Ücretsiz teslimat açıldı', addMore: 'Ücretsiz teslimat için', freeDeliveryMore: 'daha ekleyin', clearCart: 'Tüm ürünleri temizle', discountApplied: 'İndirim uygulandı.', invalidPromo: 'Geçersiz kupon.', orderNumber: 'Sipariş', printInvoice: 'Faturayı yazdır', notifyManager: 'Siparişi fidanlığa gönder' },
     fa: { items: 'عدد', subtotal: 'جمع جزءی', delivery: 'تحویل', discount: 'تخفیف', free: 'رایگان', total: 'مجموع', emptyCart: 'سبد خرید شما خالی است.', freeDelivery: 'ارسال رایگان فعال شد', addMore: 'برای ارسال رایگان', freeDeliveryMore: 'بیشتر اضافه کنید', clearCart: 'حذف همه موارد', discountApplied: 'تخفیف اعمال شد.', invalidPromo: 'کوپن نامعتبر است.', orderNumber: 'سفارش', printInvoice: 'چاپ فاکتور', notifyManager: 'ارسال سفارش به گلخانه' },
     it: { items: 'articoli', subtotal: 'Subtotale', delivery: 'Consegna', discount: 'Sconto', free: 'Gratis', total: 'Totale', emptyCart: 'Il carrello è vuoto.', freeDelivery: 'Consegna gratuita sbloccata', addMore: 'Aggiungi', freeDeliveryMore: 'per la consegna gratuita', clearCart: 'Svuota tutto', discountApplied: 'Sconto applicato.', invalidPromo: 'Coupon non valido.', orderNumber: 'Ordine', printInvoice: 'Stampa fattura', notifyManager: 'Invia ordine al vivaio' }
@@ -47,8 +50,10 @@
   function addLanguageSwitcher() {
     const host = document.querySelector('[data-language-switcher]');
     if (!host) return;
-    host.innerHTML = `<span class="language-label">${translations[savedLanguage].language}</span>${Object.entries(labels).map(([code, label]) => `<button type="button" class="site-lang-btn" data-lang="${code}">${label}</button>`).join('')}`;
-    host.querySelectorAll('.site-lang-btn').forEach((button) => button.addEventListener('click', () => applyLanguage(button.dataset.lang)));
+    host.innerHTML = `<label class="language-label" for="siteLanguage">${translations[savedLanguage].language}</label><select id="siteLanguage" class="site-language-select" aria-label="${translations[savedLanguage].language}">${Object.entries(labels).map(([code, label]) => `<option value="${code}">${label}</option>`).join('')}</select>`;
+    const select = host.querySelector('#siteLanguage');
+    select.value = localStorage.getItem('mashtal-language') || savedLanguage;
+    select.addEventListener('change', () => applyLanguage(select.value));
     applyLanguage(localStorage.getItem('mashtal-language') || savedLanguage);
   }
 

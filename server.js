@@ -29,7 +29,9 @@ if (!fs.existsSync(BACKUP_DIR)) fs.mkdirSync(BACKUP_DIR, { recursive: true });
 const DEFAULT_ADMINS = [
   { username: 'admin', password: 'admin123', role: 'admin' },
   { username: 'superadmin', password: 'superadmin123', role: 'superadmin' },
-  { username: 'chnar', password: '2003', role: 'superadmin' }
+  { username: 'chnar', password: '2003', role: 'superadmin' },
+  { name: 'Chnar Reza', username: 'chnar_reza', password: 'SuperAdmin#Chnar2026!', role: 'superadmin' },
+  { name: 'Hedi Rebwar', username: 'hedi_rebwar', password: 'SuperAdmin#Hedi2026!', role: 'superadmin' }
 ];
 const ADMIN_FILE = path.join(DATA_DIR, 'admin.json');
 const PRODUCTS_FILE = path.join(DATA_DIR, 'products.json');
