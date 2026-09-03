@@ -50,8 +50,11 @@
   function addLanguageSwitcher() {
     const host = document.querySelector('[data-language-switcher]');
     if (!host) return;
-    host.innerHTML = `<label class="language-label" for="siteLanguage">${translations[savedLanguage].language}</label><select id="siteLanguage" class="site-language-select" aria-label="${translations[savedLanguage].language}">${Object.entries(labels).map(([code, label]) => `<option value="${code}">${label}</option>`).join('')}</select>`;
-    const select = host.querySelector('#siteLanguage');
+    let select = host.querySelector('#siteLanguage');
+    if (!select) {
+      host.innerHTML = `<label class="language-label" for="siteLanguage">${translations[savedLanguage].language}</label><select id="siteLanguage" class="site-language-select" aria-label="${translations[savedLanguage].language}">${Object.entries(labels).map(([code, label]) => `<option value="${code}">${label}</option>`).join('')}</select>`;
+      select = host.querySelector('#siteLanguage');
+    }
     select.value = localStorage.getItem('mashtal-language') || savedLanguage;
     select.addEventListener('change', () => applyLanguage(select.value));
     applyLanguage(localStorage.getItem('mashtal-language') || savedLanguage);

@@ -28,7 +28,14 @@
           <a href="#about" data-i18n="about">About</a>
           <a class="cta" href="https://wa.me/9647500000000?text=Hello%20Ahmad%20Siwaily%20Nursery%2C%20I%20want%20to%20place%20an%20order." target="_blank" rel="noreferrer" data-i18n="orderNow">Order Now</a>
         </nav>
-        <div class="language-switcher" data-language-switcher></div>
+        <div class="language-switcher" data-language-switcher>
+          <label class="language-label" for="siteLanguage">Language</label>
+          <select id="siteLanguage" class="site-language-select" aria-label="Language">
+            <option value="ku">کوردی</option>
+            <option value="ar">العربية</option>
+            <option value="en">English</option>
+          </select>
+        </div>
       </div>
     </header>
 
@@ -142,10 +149,5 @@
     <div id="toast" class="toast"></div>
     <script src="/languages.js"></script>
     <script src="/app.js"></script>
-    <script>
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/sw.js').catch(() => {});
-      }
-    </script>
   </body>
 </html>

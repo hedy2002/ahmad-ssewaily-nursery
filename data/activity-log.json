@@ -1,5 +1,21 @@
 [
   {
+    "id": "log-1788471046386",
+    "actor": "hedi_rebwar",
+    "role": "superadmin",
+    "action": "login",
+    "details": {},
+    "createdAt": "2026-09-03T21:30:46.386Z"
+  },
+  {
+    "id": "log-1788471046363",
+    "actor": "chnar_reza",
+    "role": "superadmin",
+    "action": "login",
+    "details": {},
+    "createdAt": "2026-09-03T21:30:46.364Z"
+  },
+  {
     "id": "log-1788442720017",
     "actor": "chnar",
     "role": "superadmin",

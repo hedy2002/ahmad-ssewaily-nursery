@@ -223,4 +223,20 @@ function initAdminProductForm() { const form = document.getElementById('productF
 
 function initTheme() { const button = document.createElement('button'); button.className = 'theme-toggle'; button.type = 'button'; button.title = 'Toggle dark mode'; button.textContent = localStorage.getItem('theme') === 'dark' ? '☀️' : '🌙'; if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode'); button.addEventListener('click', () => { const dark = document.body.classList.toggle('dark-mode'); localStorage.setItem('theme', dark ? 'dark' : 'light'); button.textContent = dark ? '☀️' : '🌙'; }); document.body.appendChild(button); }
 
-document.addEventListener('DOMContentLoaded', () => { updateCartBadge(); initContactWidget(); setupFilters(); setupCategoryButtons(); loadProducts(); loadProductDetails(); initCart(); initCheckout(); initSuccess(); initAdmin(); initAdminProductForm(); initTheme(); document.getElementById('adminLoginForm')?.addEventListener('submit', async (event) => { event.preventDefault(); const response = await fetch('/admin/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(Object.fromEntries(new FormData(event.target))) }); const result = await response.json(); if (response.ok) location.href = result.redirect; else showToast(result.message); }); });
+function registerServiceWorker() {
+  if (!('serviceWorker' in navigator)) return;
+  navigator.serviceWorker.register('/sw.js').then((registration) => {
+    registration.update();
+    registration.onupdatefound = () => {
+      const installingWorker = registration.installing;
+      if (!installingWorker) return;
+      installingWorker.onstatechange = () => {
+        if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+          window.location.reload();
+        }
+      };
+    };
+  }).catch(() => {});
+}
+
+document.addEventListener('DOMContentLoaded', () => { registerServiceWorker(); updateCartBadge(); initContactWidget(); setupFilters(); setupCategoryButtons(); loadProducts(); loadProductDetails(); initCart(); initCheckout(); initSuccess(); initAdmin(); initAdminProductForm(); initTheme(); document.getElementById('adminLoginForm')?.addEventListener('submit', async (event) => { event.preventDefault(); const response = await fetch('/admin/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(Object.fromEntries(new FormData(event.target))) }); const result = await response.json(); if (response.ok) location.href = result.redirect; else showToast(result.message); }); });
